@@ -7,13 +7,7 @@ public class FinestraJoc {
 
     public FinestraJoc(PanellJoc pJoc) {
 
-        JFrame frame = new JFrame("Ping Pong");
-        frame.setSize(300, 300);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
-        /*jf = new JFrame();
+        jf = new JFrame();
 
         //Finalizar el programa cuando se cierre la ventana
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,9 +25,9 @@ public class FinestraJoc {
         /**
          * Se pone debajo para que no de error, porque si se pone encima
          * puede pasar que cuando se redimensione la ventana no se vea el juego.
-         *
+         */
         jf.setVisible(true);
-        */
+
     }
 
 }

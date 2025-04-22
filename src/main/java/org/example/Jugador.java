@@ -15,6 +15,14 @@ public class Jugador {
     @Column(name = "punts")
     private int punts;
 
+    public int getPunts() {
+        return punts;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
     public Jugador(int id, String nom, int punts) {
         this.id_jugador = id;
         this.nom = nom;

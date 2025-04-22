@@ -1,6 +1,6 @@
 package org.example;
 
-import org.example.connectorHibernate.AccesDades;
+import org.example.connectorHibernate.ConnectorHibernate;
 
 public class Main {
     public static void main(String[] args) {

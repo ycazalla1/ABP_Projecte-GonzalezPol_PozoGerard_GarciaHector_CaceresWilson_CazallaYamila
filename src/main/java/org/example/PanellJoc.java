@@ -19,14 +19,28 @@ public class PanellJoc extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.RED);
-        g2d.fillOval(0, 0, 30, 30);
-        g2d.drawOval(0, 50, 30, 30);
-        g2d.fillRect(50, 0, 30, 30);
-        g2d.drawRect(50, 50, 30, 30);
 
-        g2d.draw(new Ellipse2D.Double(0, 100, 30, 30));
+        int posXJugador1 = 0, posYJugador1 = 0;
+        int posXJugador2 = 1280-30, posYJugador2 = 0;
+        final int wJugador = 30, hJugador = 150;
+        int posXBola = 1280/2, posYBola = 0, wBola = 30, hBola = 30;
+
+
+
+        Graphics2D g2d = (Graphics2D) g;
+
+        /**
+         * Llama a la super clase "PanelJuego", que se extiende de JPanel
+         * Y que la propia JPanel se extiende en JComponent, para que haga su método
+         * Esto nos sirve para evitar errores en cuanto a la generación de la imágen
+         */
+        super.paintComponent(g);
+
+        g2d.setColor(Color.BLACK);
+
+        g2d.fillRect(posXJugador1, posYJugador1, wJugador, hJugador);
+        g2d.fillRect(posXJugador2, posYJugador2, wJugador, hJugador);
+        g2d.fillOval(posXBola, posYBola, wBola, hBola);
 
 
     }

@@ -4,7 +4,7 @@ public class Joc {
     private FinestraJoc fjoc;
     private PanellJoc pJoc;
 
-    public Joc(){
+    public Joc() throws InterruptedException {
 
         /**
          * Se pone este encima de la Ventana porque si no inicializamos primero

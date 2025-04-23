@@ -32,12 +32,8 @@ public class Bola {
     }
 
     public void paintComponent(Graphics2D g) {
-        //Suaviza los bordes de las figuras
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
         // (posició X, posició Y, amplada, altura)
         g.fillOval(x,y, MIDA_BOLA, MIDA_BOLA);
-        g.setColor(Color.BLACK);
     }
 
 }

@@ -62,5 +62,4 @@ public class PanellJoc extends JPanel {
         barra1.fillRect(posXJugador1, posYJugador1, wJugador, hJugador);
         barra2.fillRect(posXJugador2, posYJugador2, wJugador, hJugador);
     }
-
 }

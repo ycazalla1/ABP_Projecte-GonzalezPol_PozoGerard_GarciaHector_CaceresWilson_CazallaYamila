@@ -38,7 +38,5 @@ public class FinestraJoc {
              */
             Thread.sleep(10);
         }
-
     }
-
 }

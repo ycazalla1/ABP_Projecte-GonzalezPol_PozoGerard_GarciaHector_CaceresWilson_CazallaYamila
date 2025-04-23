@@ -21,4 +21,11 @@ public class Jugador {
         this.punts = punts;
     }
 
+    public String getNom() {
+        return nom;
+    }
+
+    public int getPunts() {
+        return punts;
+    }
 }

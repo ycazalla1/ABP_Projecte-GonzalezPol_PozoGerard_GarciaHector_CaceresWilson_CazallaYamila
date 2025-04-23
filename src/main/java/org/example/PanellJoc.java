@@ -43,7 +43,6 @@ public class PanellJoc extends JPanel {
         int posXJugador1 = 0, posYJugador1 = 0;
         int posXJugador2 = 1280-30, posYJugador2 = 0;
         final int wJugador = 30, hJugador = 150;
-        final int MIDA_BOLA = 30;
 
         Graphics2D bola = (Graphics2D) g;
         Graphics2D barra1 = (Graphics2D) g;

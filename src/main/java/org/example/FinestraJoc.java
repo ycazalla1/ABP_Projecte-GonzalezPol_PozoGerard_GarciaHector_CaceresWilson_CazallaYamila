@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 public class FinestraJoc {
     private JFrame jf;
 
-    public FinestraJoc(PanellJoc pJoc) {
+    public FinestraJoc(PanellJoc pJoc) throws InterruptedException {
 
         jf = new JFrame();
 
@@ -27,6 +27,17 @@ public class FinestraJoc {
          * puede pasar que cuando se redimensione la ventana no se vea el juego.
          */
         jf.setVisible(true);
+
+        while (true) {
+            pJoc.moureBola();
+            pJoc.repaint();
+            /*
+                Le dice al procesador que el thread que se está ejecutando descanse por 10 milisegundos
+                lo que permite que el procesador ejecute otros threads y en particular el thread AWT-EventQueue
+                que llama al metodo paint
+             */
+            Thread.sleep(10);
+        }
 
     }
 

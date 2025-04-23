@@ -13,11 +13,10 @@ public class PanellJoc extends JPanel {
     // Increment de posició bola = velocitat
     int xa = 1, ya = 1;
 
-
+    Bola b = new Bola(this);
 
     public void moureBola() {
-        x = x + 1;
-        y = y + 1;
+        b.moviment();
     }
 
     public PanellJoc() {
@@ -55,10 +54,11 @@ public class PanellJoc extends JPanel {
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
         bola.setColor(Color.BLACK);
+        b.paintComponent(bola);
+
         barra1.setColor(Color.BLACK);
         barra2.setColor(Color.BLACK);
 
-        bola.fillOval(x, y, MIDA_BOLA, MIDA_BOLA);
         barra1.fillRect(posXJugador1, posYJugador1, wJugador, hJugador);
         barra2.fillRect(posXJugador2, posYJugador2, wJugador, hJugador);
     }

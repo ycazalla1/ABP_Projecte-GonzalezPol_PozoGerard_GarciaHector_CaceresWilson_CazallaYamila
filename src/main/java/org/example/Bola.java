@@ -17,7 +17,7 @@ public class Bola {
         this.panellJoc = panellJoc;
     }
 
-    public void moviment() {
+    public void bolaMoviment() {
         if (x + xa < 0)
             xa = 1;
         if (x + xa > panellJoc.getWidth() - 30)

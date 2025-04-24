@@ -2,8 +2,6 @@ package org.example;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 /**
@@ -31,6 +29,7 @@ public class Jugador {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_jugador")
     private int id_jugador;
     /**
      * Nom del jugador
@@ -72,4 +71,11 @@ public class Jugador {
         this.punts = punts;
     }
 
+    public String getNom() {
+        return nom;
+    }
+
+    public int getPunts() {
+        return punts;
+    }
 }

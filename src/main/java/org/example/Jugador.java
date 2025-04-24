@@ -1,8 +1,6 @@
 package org.example;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 /**
  * Classe que permet crear un jugador.
@@ -69,13 +67,5 @@ public class Jugador {
     public Jugador(String nom, int punts) {
         this.nom = nom;
         this.punts = punts;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public int getPunts() {
-        return punts;
     }
 }

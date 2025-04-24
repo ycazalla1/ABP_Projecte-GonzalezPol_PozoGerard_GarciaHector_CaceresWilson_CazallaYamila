@@ -29,7 +29,7 @@ public class FinestraJoc {
         jf.setVisible(true);
 
         while (true) {
-            pJoc.moureBola();
+            pJoc.move();
             pJoc.repaint();
             /*
                 Le dice al procesador que el thread que se está ejecutando descanse por 10 milisegundos

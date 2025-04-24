@@ -2,6 +2,8 @@ package org.example;
 
 import javax.swing.JPanel;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 @SuppressWarnings("serial")
 public class PanellJoc extends JPanel {
@@ -10,25 +12,44 @@ public class PanellJoc extends JPanel {
 
     // Posició inicial bola
     int x = 0, y = 0;
-    // Increment de posició bola = velocitat
-    int xa = 1, ya = 1;
 
     Bola b = new Bola(this);
-
-    public void moureBola() {
-        b.moviment();
-    }
+    Racquet r1 = new Racquet(0, 0, this);
+    Racquet r2 = new Racquet(AMPLADA_FINESTRA-30, 0, this);
 
     public PanellJoc() {
         setPanelSize(AMPLADA_FINESTRA, ALTURA_FINESTRA);
         this.x = AMPLADA_FINESTRA/2;
         this.y = ALTURA_FINESTRA/2;
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                r1.keyPressed(e);
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                r1.keyReleased(e);
+            }
+        });
+        setFocusable(true);
     }
 
     public void setPanelSize(int amplada, int altura) {
         Dimension dimension = new Dimension(amplada, altura);
-        //Método para asignar la dimensión creada antes como preferida
+        //Metodo para asignar la dimensión creada antes como preferida
         setPreferredSize(dimension);
+    }
+
+    public void move() {
+        b.bolaMoviment();
+        r1.raqcquetMoviment();
+        r2.raqcquetMoviment();
     }
 
     public void paintComponent(Graphics g) {
@@ -39,10 +60,6 @@ public class PanellJoc extends JPanel {
          * Esto nos sirve para evitar errores en cuanto a la generación de la imágen
          */
         super.paintComponent(g);
-
-        int posXJugador1 = 0, posYJugador1 = 0;
-        int posXJugador2 = 1280-30, posYJugador2 = 0;
-        final int wJugador = 30, hJugador = 150;
 
         Graphics2D bola = (Graphics2D) g;
         Graphics2D barra1 = (Graphics2D) g;
@@ -58,7 +75,9 @@ public class PanellJoc extends JPanel {
         barra1.setColor(Color.BLACK);
         barra2.setColor(Color.BLACK);
 
-        barra1.fillRect(posXJugador1, posYJugador1, wJugador, hJugador);
-        barra2.fillRect(posXJugador2, posYJugador2, wJugador, hJugador);
+
+        r1.paint(barra1);
+        r2.paint(barra2);
+
     }
 }

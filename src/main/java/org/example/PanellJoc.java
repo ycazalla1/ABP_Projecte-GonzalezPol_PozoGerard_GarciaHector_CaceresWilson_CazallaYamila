@@ -30,11 +30,14 @@ public class PanellJoc extends JPanel {
             @Override
             public void keyPressed(KeyEvent e) {
                 r1.keyPressed(e);
+                r2.keyPressed(e);
+
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
                 r1.keyReleased(e);
+                r2.keyReleased(e);
             }
         });
         setFocusable(true);
@@ -48,8 +51,8 @@ public class PanellJoc extends JPanel {
 
     public void move() {
         b.bolaMoviment();
-        r1.raqcquetMoviment();
-        r2.raqcquetMoviment();
+        r1.raqcquetLimitBores();
+        r2.raqcquetLimitBores();
     }
 
     public void paintComponent(Graphics g) {

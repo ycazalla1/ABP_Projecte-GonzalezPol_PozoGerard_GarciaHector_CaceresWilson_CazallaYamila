@@ -17,7 +17,7 @@ public class Racquet {
         this.panellJoc = panellJoc;
     }
 
-    public void raqcquetMoviment(){
+    public void raqcquetLimitBores(){
         if (y + ya > 0 && y + ya < panellJoc.getHeight()-MIDA_ALTURA){
             y += ya;
         }
@@ -32,9 +32,13 @@ public class Racquet {
     }
 
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_W)
+        if (e.getKeyCode() == KeyEvent.VK_W && x == 0)
             ya = -1;
-        if (e.getKeyCode() == KeyEvent.VK_S)
+        if (e.getKeyCode() == KeyEvent.VK_S && x == 0)
+            ya = 1;
+        if (e.getKeyCode() == KeyEvent.VK_O && x != 0)
+            ya = -1;
+        if (e.getKeyCode() == KeyEvent.VK_L && x != 0)
             ya = 1;
     }
 }

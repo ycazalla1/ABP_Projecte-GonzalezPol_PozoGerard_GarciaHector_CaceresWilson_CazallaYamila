@@ -7,9 +7,6 @@ public class Racquet {
     private int x, y, ya = 0;
     private PanellJoc panellJoc;
 
-    public void setYa(int ya) {
-        this.ya = ya;
-    }
 
     public Racquet(int x, int y, PanellJoc panellJoc){
         this.x = x;
@@ -23,6 +20,16 @@ public class Racquet {
         }
     }
 
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, MIDA_AMPLADA, MIDA_ALTURA);
+    }
+
+    public int getX() {
+            return x + MIDA_AMPLADA;
+
+
+    }
+
     public void paint(Graphics g){
         g.fillRect(x, y, MIDA_AMPLADA, MIDA_ALTURA);
     }
@@ -33,12 +40,12 @@ public class Racquet {
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_W && x == 0)
-            ya = -1;
+            ya = -4;
         if (e.getKeyCode() == KeyEvent.VK_S && x == 0)
-            ya = 1;
+            ya = 4;
         if (e.getKeyCode() == KeyEvent.VK_O && x != 0)
-            ya = -1;
+            ya = -4;
         if (e.getKeyCode() == KeyEvent.VK_L && x != 0)
-            ya = 1;
+            ya = 4;
     }
 }

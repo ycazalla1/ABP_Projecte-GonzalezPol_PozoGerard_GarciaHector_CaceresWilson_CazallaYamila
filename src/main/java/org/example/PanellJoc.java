@@ -1,6 +1,6 @@
 package org.example;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -19,8 +19,6 @@ public class PanellJoc extends JPanel {
 
     public PanellJoc() {
         setPanelSize(AMPLADA_FINESTRA, ALTURA_FINESTRA);
-        this.x = AMPLADA_FINESTRA/2;
-        this.y = ALTURA_FINESTRA/2;
         addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -53,6 +51,12 @@ public class PanellJoc extends JPanel {
         b.bolaMoviment();
         r1.raqcquetLimitBores();
         r2.raqcquetLimitBores();
+    }
+
+    public void gameOver() {
+        JOptionPane.showMessageDialog(this, "Game Over",
+                "Game Over", JOptionPane.YES_NO_OPTION);
+        System.exit(ABORT);
     }
 
     public void paintComponent(Graphics g) {

@@ -11,33 +11,16 @@ import jakarta.persistence.*;
  * Incorpora un constructor per indicar el nom i nombre de punts que té el
  * jugador <b>{@link #Jugador(String, int)}</b>.
  * </p>
- * <p>
- * Incorpora etiquetes d'Hibernate per poder utilitzar-lo directament.
- * <br>
- * El id del jugador és autoincremental, la classe la incorpora però no es pot
- * modificar o canviar, quan es declara un jugador comença en 1 i es va
- * incrementant.
- * </p>
  */
-@Entity(name = "jugadors")
 public class Jugador {
 
     /**
-     * El id del jugador, es autoincrementa
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_jugador")
-    private int id_jugador;
-    /**
      * Nom del jugador
      */
-    @Column(name = "nom")
     private String nom;
     /**
      * Punts del jugador
      */
-    @Column(name = "punts")
     private int punts;
 
     /**

@@ -9,13 +9,18 @@ import java.awt.event.KeyListener;
 public class PanellJoc extends JPanel {
 
     static final int AMPLADA_FINESTRA = 1280, ALTURA_FINESTRA = 800;
-
-    // Posició inicial bola
-    int x = 0, y = 0;
+    private final int MIDA_FONT = 20;
 
     Bola b = new Bola(this);
-    Racquet r1 = new Racquet(0, 0, this);
-    Racquet r2 = new Racquet(AMPLADA_FINESTRA-30, 0, this);
+    Racquet r1 = new Racquet(30, 30, this);
+    Racquet r2 = new Racquet(AMPLADA_FINESTRA-60, 30, this);
+
+    Jugador j1 = new Jugador("Yamila", 0);
+    Jugador j2 = new Jugador("Javi", 0);
+
+    /**
+     * Constructor del panell de joc
+     */
 
     public PanellJoc() {
         setPanelSize(AMPLADA_FINESTRA, ALTURA_FINESTRA);
@@ -29,7 +34,9 @@ public class PanellJoc extends JPanel {
             public void keyPressed(KeyEvent e) {
                 r1.keyPressed(e);
                 r2.keyPressed(e);
-
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    menuGame();
+                }
             }
 
             @Override
@@ -53,18 +60,27 @@ public class PanellJoc extends JPanel {
         r2.raqcquetLimitBores();
     }
 
+    public void menuGame() {
+        JPanel menu = new JPanel();
+        Dimension d = new Dimension(50, 100);
+        menu.setPreferredSize(d);
+        JButton b1 = new JButton("Continuar");
+        JButton b2 = new JButton("Reiniciar");
+        JButton b3 = new JButton("Sortir");
+        b1.setBounds(new Rectangle(0, 0, 200, 50));
+        menu.add(b1);
+        menu.add(b2);
+        menu.add(b3);
+        JOptionPane.showMessageDialog(null, menu,
+                "Menu", JOptionPane.YES_NO_OPTION);
+    }
+
     public void gameOver() {
         JOptionPane.showMessageDialog(this, "Game Over",
                 "Game Over", JOptionPane.YES_NO_OPTION);
-        System.exit(ABORT);
-    }
-
-    public int getAmpladaFinestra() {
-        return AMPLADA_FINESTRA;
-    }
-
-    public int getAlturaFinestra() {
-        return ALTURA_FINESTRA;
+        /*  //Esto es para cerrar la ventana del juego
+            System.exit(ABORT);
+         */
     }
 
 
@@ -80,10 +96,19 @@ public class PanellJoc extends JPanel {
         Graphics2D bola = (Graphics2D) g;
         Graphics2D barra1 = (Graphics2D) g;
         Graphics2D barra2 = (Graphics2D) g;
+        Graphics2D requadreCentral = (Graphics2D) g;
+        Graphics2D punts = (Graphics2D) g;
+        Graphics2D J1 = (Graphics2D) g;
+        Graphics2D J2 = (Graphics2D) g;
 
         //Suaviza los bordes de las figuras
         bola.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
+
+
+        requadreCentral.setColor(Color.BLACK);
+        requadreCentral.drawRect(30, 30,
+                AMPLADA_FINESTRA-(30*2), ALTURA_FINESTRA-(30*2));
 
         bola.setColor(Color.BLACK);
         b.paintComponent(bola);
@@ -94,6 +119,19 @@ public class PanellJoc extends JPanel {
 
         r1.paint(barra1);
         r2.paint(barra2);
+
+        J1.setColor(Color.BLACK);
+        J1.setFont(new Font("Verdana", Font.BOLD, MIDA_FONT));
+        J1.drawString(j1.getNom(), 0, 20);
+
+        J2.setColor(Color.BLACK);
+        J2.setFont(new Font("Verdana", Font.BOLD, MIDA_FONT));
+        J2.drawString(j2.getNom(), AMPLADA_FINESTRA-30, 20);
+
+        punts.setFont(new Font("Verdana", Font.BOLD, MIDA_FONT));
+        punts.setColor(Color.BLACK);
+        punts.drawString(j1.getPunts() + " | " + j2.getPunts(), AMPLADA_FINESTRA/2, 20);
+
 
     }
 }

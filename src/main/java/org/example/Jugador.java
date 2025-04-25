@@ -41,6 +41,10 @@ public class Jugador {
         return punts;
     }
 
+    public void setPunts(int punts) {
+        this.punts = punts;
+    }
+
     /**
      * Constructor Jugador, estableix el nom i els punts que té el jugador.
      * 

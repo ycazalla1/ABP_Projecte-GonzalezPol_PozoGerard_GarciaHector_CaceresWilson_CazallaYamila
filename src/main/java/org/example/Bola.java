@@ -10,6 +10,7 @@ public class Bola {
     private static final int VELOCITAT_BOLA = 2;
     int x = AMPLADA_FINESTRA/2, y = ALTURA_FINESTRA/2;
     int xa = 2, ya = 2;
+    int puntsJ1, puntsJ2;
 
     private final int MIDA_BOLA = 30;
 
@@ -27,10 +28,9 @@ public class Bola {
         //System.out.println("p");
         if (x + xa > panellJoc.getWidth() - 30)
             xa = -VELOCITAT_BOLA;
-        //System.out.println("p");
-        if (y + ya < 0)
+        if (y + ya < 30)
             ya = VELOCITAT_BOLA;
-        if (y + ya > panellJoc.getHeight() - 30)
+        if (y + ya > panellJoc.getHeight() - 60)
             ya = -VELOCITAT_BOLA;
         if (collision(panellJoc.r1)) {
             xa = VELOCITAT_BOLA;
@@ -58,6 +58,11 @@ public class Bola {
         //this.y = panellJoc.getHeight()/2;
         // (posició X, posició Y, amplada, altura)
         g.fillOval(x, y, MIDA_BOLA, MIDA_BOLA);
+    }
+
+    private void reiniciarPosicio() {
+        x = AMPLADA_FINESTRA / 2;
+        y = ALTURA_FINESTRA / 2;
     }
 
 }

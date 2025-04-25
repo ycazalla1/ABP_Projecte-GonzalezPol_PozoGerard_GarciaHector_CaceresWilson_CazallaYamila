@@ -46,6 +46,7 @@ public class PanellJoc extends JPanel {
             }
         });
         setFocusable(true);
+
     }
 
     public void setPanelSize(int amplada, int altura) {
@@ -75,12 +76,11 @@ public class PanellJoc extends JPanel {
                 "Menu", JOptionPane.YES_NO_OPTION);
     }
 
-    public void gameOver() {
-        JOptionPane.showMessageDialog(this, "Game Over",
-                "Game Over", JOptionPane.YES_NO_OPTION);
-        /*  //Esto es para cerrar la ventana del juego
-            System.exit(ABORT);
-         */
+    public void gameOver(Jugador j) {
+        JOptionPane.showMessageDialog(this, "El guanyador és:" + j.getNom() + "\n"
+                        + "Punts: " + j.getPunts(), "Game Over", JOptionPane.YES_NO_OPTION);
+        //Esto es para cerrar la ventana del juego
+        System.exit(ABORT);
     }
 
 

@@ -1,17 +1,18 @@
 package org.example;
 
 import java.awt.*;
+import static org.example.PanellJoc.*;
 
 public class Bola {
 
-    // Posició inicial bola
-    int x, y;
-    // Increment de posició bola = velocitat
+    private PanellJoc panellJoc;
+
+    private static final int VELOCITAT_BOLA = 2;
+    int x = AMPLADA_FINESTRA/2, y = ALTURA_FINESTRA/2;
     int xa = 2, ya = 2;
 
     private final int MIDA_BOLA = 30;
 
-    private PanellJoc panellJoc;
 
     public Bola(PanellJoc panellJoc) {
         this.panellJoc = panellJoc;

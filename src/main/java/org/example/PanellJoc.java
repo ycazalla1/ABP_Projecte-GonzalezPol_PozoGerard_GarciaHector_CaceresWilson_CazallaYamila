@@ -8,7 +8,7 @@ import java.awt.event.KeyListener;
 @SuppressWarnings("serial")
 public class PanellJoc extends JPanel {
 
-    private static final int AMPLADA_FINESTRA = 1280, ALTURA_FINESTRA = 800;
+    static final int AMPLADA_FINESTRA = 1280, ALTURA_FINESTRA = 800;
 
     // Posició inicial bola
     int x = 0, y = 0;
@@ -58,6 +58,15 @@ public class PanellJoc extends JPanel {
                 "Game Over", JOptionPane.YES_NO_OPTION);
         System.exit(ABORT);
     }
+
+    public int getAmpladaFinestra() {
+        return AMPLADA_FINESTRA;
+    }
+
+    public int getAlturaFinestra() {
+        return ALTURA_FINESTRA;
+    }
+
 
     public void paintComponent(Graphics g) {
 

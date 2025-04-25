@@ -5,9 +5,9 @@ import java.awt.*;
 public class Bola {
 
     // Posició inicial bola
-    int x = 0, y = 0;
+    int x, y;
     // Increment de posició bola = velocitat
-    int xa = 1, ya = 1;
+    int xa = 2, ya = 2;
 
     private final int MIDA_BOLA = 30;
 
@@ -15,6 +15,8 @@ public class Bola {
 
     public Bola(PanellJoc panellJoc) {
         this.panellJoc = panellJoc;
+        this.x = panellJoc.getWidth() / 2 - MIDA_BOLA / 2;
+        this.y = panellJoc.getHeight() / 2 - MIDA_BOLA / 2;
     }
 
     public void bolaMoviment() {

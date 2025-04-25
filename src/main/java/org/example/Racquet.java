@@ -24,10 +24,11 @@ public class Racquet {
         return new Rectangle(x, y, MIDA_AMPLADA, MIDA_ALTURA);
     }
 
-    public int getX() {
+    public int getTotalX() {
+        if (x == 0)
             return x + MIDA_AMPLADA;
-
-
+        else
+            return x - MIDA_AMPLADA;
     }
 
     public void paint(Graphics g){
@@ -40,13 +41,14 @@ public class Racquet {
 
 
     public void keyPressed(KeyEvent e) {
+        final int VELOCITAT_PALA = 4;
         if (e.getKeyCode() == KeyEvent.VK_W && x == 0)
-            ya = -4;
+            ya = -VELOCITAT_PALA;
         if (e.getKeyCode() == KeyEvent.VK_S && x == 0)
-            ya = 4;
+            ya = VELOCITAT_PALA;
         if (e.getKeyCode() == KeyEvent.VK_O && x != 0)
-            ya = -4;
+            ya = -VELOCITAT_PALA;
         if (e.getKeyCode() == KeyEvent.VK_L && x != 0)
-            ya = 4;
+            ya = VELOCITAT_PALA;
     }
 }

@@ -18,6 +18,10 @@ public class PanellJoc extends JPanel {
     Jugador j1 = new Jugador("Yamila", 0);
     Jugador j2 = new Jugador("Javi", 0);
 
+    int posRCentral = 30, ampleRCentral = AMPLADA_FINESTRA-(30*2),
+    altRCentral = ALTURA_FINESTRA-(30*2);
+
+
     /**
      * Constructor del panell de joc
      */
@@ -96,7 +100,7 @@ public class PanellJoc extends JPanel {
         Graphics2D bola = (Graphics2D) g;
         Graphics2D barra1 = (Graphics2D) g;
         Graphics2D barra2 = (Graphics2D) g;
-        Graphics2D requadreCentral = (Graphics2D) g;
+        Graphics2D rCentral = (Graphics2D) g;
         Graphics2D punts = (Graphics2D) g;
         Graphics2D J1 = (Graphics2D) g;
         Graphics2D J2 = (Graphics2D) g;
@@ -106,9 +110,9 @@ public class PanellJoc extends JPanel {
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
 
-        requadreCentral.setColor(Color.BLACK);
-        requadreCentral.drawRect(30, 30,
-                AMPLADA_FINESTRA-(30*2), ALTURA_FINESTRA-(30*2));
+        rCentral.setColor(Color.BLACK);
+        rCentral.drawRect(posRCentral, posRCentral,
+                ampleRCentral, altRCentral);
 
         bola.setColor(Color.BLACK);
         b.paintComponent(bola);

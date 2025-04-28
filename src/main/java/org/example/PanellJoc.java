@@ -111,6 +111,7 @@ public class PanellJoc extends JPanel {
         menu.add(b3);
         JOptionPane.showMessageDialog(null, menu,
                 "Menu", JOptionPane.YES_NO_OPTION);
+        pausa = false;
     }
 
     public void gameOver(Jugador j) {

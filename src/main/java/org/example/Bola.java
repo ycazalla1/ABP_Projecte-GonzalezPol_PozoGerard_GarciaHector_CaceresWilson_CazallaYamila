@@ -3,8 +3,24 @@ package org.example;
 import java.awt.*;
 import static org.example.PanellJoc.*;
 
+/**
+ * Classe que representa la bola del joc
+ * 
+ * Permet fer un constructor per la bola
+ * 
+ * Incorpora methodes per controlar el moviment de la bola, les colisions, pintar la bola en el panell i reiniciar la posició quan es marca un punt
+ *
+ * @author Grup-1
+ */
 public class Bola {
 
+    /**
+     * Els pixels que ocupa la bola rectangularment per la hitbox
+     */
+    private final int MIDA_BOLA = 30;
+    /**
+     * El panell del joc
+     */
     private PanellJoc panellJoc;
     /**
      * Velocitat de la bola
@@ -14,6 +30,9 @@ public class Bola {
      * Coordenades ón apareix la bola
      */
     int x = AMPLADA_FINESTRA/2, y = ALTURA_FINESTRA/2;
+    /**
+     * Direcció que segueix la bola
+     */
     int xa = 2, ya = 2;
     /**
      * Constructor de la bola
@@ -24,6 +43,12 @@ public class Bola {
         this.panellJoc = panellJoc;
     }
 
+    /**
+     * Fa moure la bola
+     *
+     * Quan la bola fa contacte amb una raqueta o una paret canvia la direcció de la bola mantenint la velocitat que portaba abans d'impactar
+     * Quan la bola pasa de llarg a una raqueta, el jugador contrari suma un punt i la posició de la bola es reinicia
+     */
     public void bolaMoviment() {
         if (x + xa < 30)
             xa = velocitatBola;
@@ -58,20 +83,39 @@ public class Bola {
 
     }
 
+    /**
+     * Comprova si la bola ha colisionat amb la racquet
+     *
+     * @param racquet La racqueta per mirar si ha colisionat
+     * @return true/false, si colisiona o no
+     */
     private boolean collision(Racquet racquet) {
         return racquet.getBounds().intersects(getBounds());
     }
 
+    /**
+     * Obté la posició i la mesura de la bola
+     *
+     * @return Rectangle amb l'informació de la bola
+     */
     public Rectangle getBounds() {
         return new Rectangle(x, y, MIDA_BOLA, MIDA_BOLA);
     }
 
+    /**
+     * Dibuixa la bola en el panell
+     *
+     * @param g Pasem l'objecte per pintar la bola
+     */
     public void paintComponent(Graphics2D g) {
         // (posició X, posició Y, amplada, altura)
         g.fillOval(x, y, MIDA_BOLA, MIDA_BOLA);
         bolaMoviment();
     }
 
+    /**
+     * Reinicia la posició de la bola
+     */
     private void reiniciarPosicio() {
         x = AMPLADA_FINESTRA / 2;
         y = ALTURA_FINESTRA / 2;

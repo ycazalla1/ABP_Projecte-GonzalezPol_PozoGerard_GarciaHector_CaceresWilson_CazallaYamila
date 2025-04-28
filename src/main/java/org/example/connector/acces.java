@@ -1,4 +1,4 @@
-package org.example.connectorHibernate;
+package org.example.connector;
 import org.example.Jugador;
 import java.sql.*;
 

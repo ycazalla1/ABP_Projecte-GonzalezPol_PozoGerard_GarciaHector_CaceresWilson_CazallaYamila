@@ -1,13 +1,25 @@
 package org.example;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import org.example.PanellJoc;
 
 public class Racquet {
     private final static int MIDA_AMPLADA = 30, MIDA_ALTURA = 150;
     private int x, y, ya = 0;
     private PanellJoc panellJoc;
 
+    private int palaJ1, palaJ2;
 
+    public Racquet() {
+
+    }
+
+    /**
+     * Constructor de la pala
+     * @param x posicio x
+     * @param y posicio y
+     * @param panellJoc panell de joc
+     */
     public Racquet(int x, int y, PanellJoc panellJoc){
         this.x = x;
         this.y = y;
@@ -51,4 +63,26 @@ public class Racquet {
         if (e.getKeyCode() == KeyEvent.VK_L && x != 30)
             ya = VELOCITAT_PALA;
     }
+
+    public void setPala(int punts) {
+        final int BARRA_ESQUERRA = panellJoc.posRCentral,
+        BARRA_DRETA = panellJoc.ampleRCentral;
+
+        if (punts < 3) {
+            palaJ1 = BARRA_ESQUERRA;
+            palaJ2 = BARRA_DRETA;
+        } else {
+            //panellJoc.b.setComptadorPunts(0);
+            if (palaJ1 == BARRA_ESQUERRA) {
+                palaJ1 = BARRA_DRETA;
+                palaJ2 = BARRA_ESQUERRA;
+            } else {
+                palaJ1 = BARRA_ESQUERRA;
+                palaJ2 = BARRA_DRETA;
+
+            }
+        }
+
+    }
+
 }

@@ -6,43 +6,56 @@ import static org.example.PanellJoc.*;
 public class Bola {
 
     private PanellJoc panellJoc;
-
-    private static final int VELOCITAT_BOLA = 2;
+    /**
+     * Velocitat de la bola
+     */
+    private static int velocitatBola = 2;
+    /**
+     * Coordenades ón apareix la bola
+     */
     int x = AMPLADA_FINESTRA/2, y = ALTURA_FINESTRA/2;
     int xa = 2, ya = 2;
-    int puntsJ1, puntsJ2;
-
-    private final int MIDA_BOLA = 30;
-
-
+    /**
+     * Constructor de la bola
+     *
+     * @param panellJoc El panell del joc per dibuixar la bola
+     */
     public Bola(PanellJoc panellJoc) {
         this.panellJoc = panellJoc;
-        this.x = panellJoc.getWidth() / 2 - MIDA_BOLA / 2;
-        this.y = panellJoc.getHeight() / 2 - MIDA_BOLA / 2;
     }
 
     public void bolaMoviment() {
-        final int VELOCITAT_BOLA = 3;
-        if (x + xa < 0)
-            xa = VELOCITAT_BOLA;
-        //System.out.println("p");
-        if (x + xa > panellJoc.getWidth() - 30)
-            xa = -VELOCITAT_BOLA;
+        if (x + xa < 30)
+            xa = velocitatBola;
+        if (x + xa > panellJoc.getWidth() - 60)
+            xa = -velocitatBola;
         if (y + ya < 30)
-            ya = VELOCITAT_BOLA;
+            ya = velocitatBola;
         if (y + ya > panellJoc.getHeight() - 60)
-            ya = -VELOCITAT_BOLA;
-        if (collision(panellJoc.r1)) {
-            xa = VELOCITAT_BOLA;
-            x = panellJoc.r1.getX() - MIDA_BOLA;
-        }
-        if (collision(panellJoc.r2)) {
-            xa = -VELOCITAT_BOLA;
-            x = panellJoc.r2.getX() + MIDA_BOLA;
-        }
+            ya = -velocitatBola;
 
         x = x + xa;
         y = y + ya;
+
+        if (collision(panellJoc.r1)) {
+            xa = velocitatBola;
+            x = panellJoc.r1.getTotalX() + MIDA_BOLA;
+        }
+        if (collision(panellJoc.r2)) {
+            xa = -velocitatBola;
+            x = panellJoc.r2.getTotalX() - MIDA_BOLA;
+        }
+
+        if (x == 30) {
+            panellJoc.j2.setPunts(panellJoc.j2.getPunts()+1);
+            reiniciarPosicio();
+        }
+
+        if (x == panellJoc.getWidth() - 60) {
+            panellJoc.j1.setPunts(panellJoc.j1.getPunts()+1);
+            reiniciarPosicio();
+        }
+
     }
 
     private boolean collision(Racquet racquet) {
@@ -54,10 +67,9 @@ public class Bola {
     }
 
     public void paintComponent(Graphics2D g) {
-        //this.x = panellJoc.getWidth()/2;
-        //this.y = panellJoc.getHeight()/2;
         // (posició X, posició Y, amplada, altura)
         g.fillOval(x, y, MIDA_BOLA, MIDA_BOLA);
+        bolaMoviment();
     }
 
     private void reiniciarPosicio() {

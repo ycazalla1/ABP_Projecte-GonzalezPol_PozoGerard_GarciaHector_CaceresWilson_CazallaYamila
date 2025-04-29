@@ -110,11 +110,11 @@ public class Obstacles {
         }
 
         // Si toca el borde de la pantalla
-        if (y < Finals.MARGES) {
-            y = Finals.MARGES;
+        if (y < Variables.MARGES) {
+            y = Variables.MARGES;
             ya = -ya;
-        } else if (y + ALTURA_DEFECTE > altura - Finals.MARGES) {
-            y = altura - Finals.MARGES - ALTURA_DEFECTE;
+        } else if (y + ALTURA_DEFECTE > altura - Variables.MARGES) {
+            y = altura - Variables.MARGES - ALTURA_DEFECTE;
             ya = -ya;
         }
     }

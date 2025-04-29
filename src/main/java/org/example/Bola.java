@@ -1,7 +1,6 @@
 package org.example;
 
 import java.awt.*;
-import static org.example.PanellJoc.*;
 
 /**
  * Classe que representa la bola del joc
@@ -29,7 +28,7 @@ public class Bola {
     /**
      * Coordenades ón apareix la bola
      */
-    int x = ampladaFinestra /2, y = alturaFinestra /2;
+    int x = Variables.ampladaFinestra /2, y = Variables.alturaFinestra /2;
     /**
      * Direcció que segueix la bola
      */
@@ -44,24 +43,25 @@ public class Bola {
     }
 
     /**
-     * Fa moure la bola
+     * Fa moure la bola.
      *
-     * Quan la bola fa contacte amb una raqueta o una paret canvia la direcció de la bola mantenint la velocitat que portaba abans d'impactar
-     * Quan la bola pasa de llarg a una raqueta, el jugador contrari suma un punt i la posició de la bola es reinicia
+     * Quan la bola fa contacte amb una paret canvia la direcció de la bola mantenint la velocitat que portaba
+     * abans d'impactar
      */
     public void bolaMoviment() {
-        if (x + xa < Finals.MARGES)
+        if (x + xa < Variables.MARGES)
             xa = velocitatBola;
-        if (x + xa > panellJoc.getWidth() - Finals.MARGES - Finals.TAMANY_AMPLE_RACQUET)
+        if (x + xa > panellJoc.getWidth() - Variables.MARGES - Variables.MIDA_AMPLE_RACQUET)
             xa = -velocitatBola;
-        if (y + ya < Finals.MARGES)
+        if (y + ya < Variables.MARGES)
             ya = velocitatBola;
-        if (y + ya > panellJoc.getHeight() - Finals.MARGES - Finals.TAMANY_AMPLE_RACQUET)
+        if (y + ya > panellJoc.getHeight() - Variables.MARGES - Variables.MIDA_AMPLE_RACQUET)
             ya = -velocitatBola;
 
         x = x + xa;
         y = y + ya;
 
+        // Colisions amb les pales
         if (collision(panellJoc.r1)) {
             xa = velocitatBola;
             x = panellJoc.r1.getTotalX() + MIDA_BOLA;
@@ -80,12 +80,14 @@ public class Bola {
             }
         }
 
-        if (x <= Finals.MARGE_RACQUET_RECTANGLE) {
+        // Si la bola surt per l'esquerra
+        if (x <= Variables.MARGES) {
             panellJoc.j2.setPunts(panellJoc.j2.getPunts()+1);
             reiniciarPosicio();
         }
 
-        if (x >= panellJoc.getWidth() - Finals.MARGE_RACQUET_RECTANGLE - Finals.TAMANY_AMPLE_RACQUET) {
+        // Si la bola surt per la dreta
+        if (x >= Variables.ampladaFinestra - (Variables.MARGES*2)) {
             panellJoc.j1.setPunts(panellJoc.j1.getPunts()+1);
             reiniciarPosicio();
         }
@@ -129,8 +131,8 @@ public class Bola {
      * Reinicia la posició de la bola
      */
     private void reiniciarPosicio() {
-        x = ampladaFinestra / 2;
-        y = alturaFinestra / 2;
+        x = Variables.ampladaFinestra / 2;
+        y = Variables.alturaFinestra / 2;
     }
 
     public void incrementarVelocitatBola() {

@@ -1,7 +1,6 @@
 package org.example;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import org.example.PanellJoc;
 
 public class Racquet {
     private final static int MIDA_AMPLADA = 30, MIDA_ALTURA = 150;
@@ -27,7 +26,7 @@ public class Racquet {
     }
 
     public void raqcquetLimitBores(){
-        if (y + ya > Finals.MARGES && y + ya < panellJoc.getHeight()-MIDA_ALTURA - Finals.MARGES){
+        if (y + ya > Variables.MARGES && y + ya < panellJoc.getHeight()-MIDA_ALTURA - Variables.MARGES){
             y += ya;
         }
     }

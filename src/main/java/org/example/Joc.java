@@ -11,7 +11,7 @@ public class Joc {
          * el Panel da error, ya que no tendría Ventana ningún parámetro
          * asignado
          */
-        pJoc = new PanellJoc(1400, 800);
+        pJoc = new PanellJoc(Variables.ampladaFinestra, Variables.alturaFinestra);
         fjoc = new FinestraJoc(pJoc);
     }
 }

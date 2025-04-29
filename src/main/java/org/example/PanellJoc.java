@@ -10,7 +10,6 @@ import java.util.ArrayList;
 @SuppressWarnings("serial")
 public class PanellJoc extends JPanel {
 
-    static int ampladaFinestra = 1280, alturaFinestra = 800;
     private final int MIDA_FONT = 20;
     private static final int LIMIT_OBSTACLES = 10;
     private static final int PUNTUACIO_REQUERIDA_INICIAL = 5000;
@@ -20,16 +19,16 @@ public class PanellJoc extends JPanel {
     Temporitzador t = new Temporitzador();
 
     Bola b = new Bola(this);
-    Racquet r1 = new Racquet(Finals.MARGES + Finals.MARGE_RACQUET_RECTANGLE, Finals.MARGES, this);
-    Racquet r2 = new Racquet(ampladaFinestra - (Finals.MARGES + Finals.TAMANY_AMPLE_RACQUET + Finals.MARGE_RACQUET_RECTANGLE), Finals.MARGES, this);
+    Racquet r1 = new Racquet(Variables.MARGES + Variables.MARGE_RACQUET_RECTANGLE, Variables.MARGES, this);
+    Racquet r2 = new Racquet(Variables.ampladaFinestra - (Variables.MARGES + Variables.MIDA_AMPLE_RACQUET + Variables.MARGE_RACQUET_RECTANGLE), Variables.MARGES, this);
 
     Jugador j1 = new Jugador("Yamila", 0);
     Jugador j2 = new Jugador("Javi", 0);
 
     ArrayList<Obstacles> obstacles = new ArrayList<>();
 
-    int posRCentral = Finals.MARGES, ampleRCentral = ampladaFinestra - (Finals.MARGES*2),
-    altRCentral = alturaFinestra - (Finals.MARGES*2);
+    int posRCentral = Variables.MARGES, ampleRCentral = Variables.ampladaFinestra - (Variables.MARGES*2),
+    altRCentral = Variables.alturaFinestra - (Variables.MARGES*2);
 
     public static boolean pausa = false;
 
@@ -126,7 +125,7 @@ public class PanellJoc extends JPanel {
         if (Temporitzador.getMilisegons() > puntuacioRequerida) {
             nivell++;
             if (obstacles.size() < LIMIT_OBSTACLES) {
-                obstacles = Obstacles.generarObstacles(ampladaFinestra, alturaFinestra, nivell * 3);
+                obstacles = Obstacles.generarObstacles(Variables.ampladaFinestra, Variables.alturaFinestra, nivell * 3);
             }
             b.incrementarVelocitatBola();
             //if (obstacles.size() < LIMIT_OBSTACLES)
@@ -191,15 +190,15 @@ public class PanellJoc extends JPanel {
 
             J2.setColor(Color.BLACK);
             J2.setFont(new Font("Verdana", Font.BOLD, MIDA_FONT));
-            J2.drawString(j2.getNom(), ampladaFinestra -30, 20);
+            J2.drawString(j2.getNom(), Variables.ampladaFinestra -30, 20);
 
             punts.setFont(new Font("Verdana", Font.BOLD, MIDA_FONT));
             punts.setColor(Color.BLACK);
-            punts.drawString(j1.getPunts() + " | " + j2.getPunts(), ampladaFinestra /2, 20);
+            punts.drawString(j1.getPunts() + " | " + j2.getPunts(), Variables.ampladaFinestra /2, 20);
 
             String nivellString = "Nivell: " + nivell;
             nivellJoc.setFont(new Font("Verdana", Font.BOLD, MIDA_FONT));
-            nivellJoc.drawString(nivellString, ampladaFinestra /2, alturaFinestra -50);
+            nivellJoc.drawString(nivellString, Variables.ampladaFinestra /2, Variables.alturaFinestra -50);
 
 
         /*Dibuja el tiempo
@@ -207,7 +206,7 @@ public class PanellJoc extends JPanel {
 
             String temps = "Temps: " + Integer.toString(t.getMilisegons()) + "ms";
             temporitzador.setFont(new Font("Verdana", Font.BOLD, MIDA_FONT));
-            temporitzador.drawString(temps, ampladaFinestra /2, alturaFinestra -30);
+            temporitzador.drawString(temps, Variables.ampladaFinestra /2, Variables.alturaFinestra -30);
 
 
     }

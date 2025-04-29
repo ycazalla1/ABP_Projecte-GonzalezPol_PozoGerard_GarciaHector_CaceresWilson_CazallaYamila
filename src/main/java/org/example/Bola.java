@@ -25,11 +25,11 @@ public class Bola {
     /**
      * Velocitat de la bola
      */
-    private static int velocitatBola = 2;
+    private static int velocitatBola = 1;
     /**
      * Coordenades ón apareix la bola
      */
-    int x = AMPLADA_FINESTRA/2, y = ALTURA_FINESTRA/2;
+    int x = ampladaFinestra /2, y = alturaFinestra /2;
     /**
      * Direcció que segueix la bola
      */
@@ -50,13 +50,13 @@ public class Bola {
      * Quan la bola pasa de llarg a una raqueta, el jugador contrari suma un punt i la posició de la bola es reinicia
      */
     public void bolaMoviment() {
-        if (x + xa < 30)
+        if (x + xa < Finals.MARGES)
             xa = velocitatBola;
-        if (x + xa > panellJoc.getWidth() - 60)
+        if (x + xa > panellJoc.getWidth() - Finals.MARGES - Finals.TAMANY_AMPLE_RACQUET)
             xa = -velocitatBola;
-        if (y + ya < 30)
+        if (y + ya < Finals.MARGES)
             ya = velocitatBola;
-        if (y + ya > panellJoc.getHeight() - 60)
+        if (y + ya > panellJoc.getHeight() - Finals.MARGES - Finals.TAMANY_AMPLE_RACQUET)
             ya = -velocitatBola;
 
         x = x + xa;
@@ -71,12 +71,21 @@ public class Bola {
             x = panellJoc.r2.getTotalX() - MIDA_BOLA;
         }
 
-        if (x == 30) {
+        // Collisions amb obstacles
+        for (int i = 0; i < panellJoc.obstacles.size(); i++) {
+            if (collision(panellJoc.obstacles.get(i))) {
+                xa = (xa == velocitatBola) ? -velocitatBola : velocitatBola;
+                ya = (ya == velocitatBola) ? -velocitatBola : velocitatBola;
+                panellJoc.obstacles.remove(i);
+            }
+        }
+
+        if (x <= Finals.MARGE_RACQUET_RECTANGLE) {
             panellJoc.j2.setPunts(panellJoc.j2.getPunts()+1);
             reiniciarPosicio();
         }
 
-        if (x == panellJoc.getWidth() - 60) {
+        if (x >= panellJoc.getWidth() - Finals.MARGE_RACQUET_RECTANGLE - Finals.TAMANY_AMPLE_RACQUET) {
             panellJoc.j1.setPunts(panellJoc.j1.getPunts()+1);
             reiniciarPosicio();
         }
@@ -91,6 +100,9 @@ public class Bola {
      */
     private boolean collision(Racquet racquet) {
         return racquet.getBounds().intersects(getBounds());
+    }
+    private boolean collision(Obstacles obstacle) {
+        return obstacle.getBounds().intersects(getBounds());
     }
 
     /**
@@ -117,8 +129,12 @@ public class Bola {
      * Reinicia la posició de la bola
      */
     private void reiniciarPosicio() {
-        x = AMPLADA_FINESTRA / 2;
-        y = ALTURA_FINESTRA / 2;
+        x = ampladaFinestra / 2;
+        y = alturaFinestra / 2;
+    }
+
+    public void incrementarVelocitatBola() {
+        velocitatBola++;
     }
 
 }

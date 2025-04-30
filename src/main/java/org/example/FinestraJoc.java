@@ -31,48 +31,7 @@ public class FinestraJoc {
          */
         jf.setVisible(true);
 
-        while (true) {
-            if (pJoc.getPausa()) {
-                /*
-                    Si el juego está en pausa, se llama al metodo menuGame() de la clase PanellJoc
-                    que es el que se encarga de mostrar el menú del juego
-                 */
-                pJoc.menuGame();
 
-            } else {
-                /*
-                El metodo move() de la clase PanellJoc es el que se encarga de
-                mover la bola y las palas
-             */
-                pJoc.move();
-            /*
-                El metodo repaint() llama al metodo paintComponent(Graphics g) de la clase PanellJoc
-                que es el que se encarga de dibujar el panel del juego
-             */
-                pJoc.repaint();
-                if (pJoc.j1.getPunts() >= PUNTUACIO_WINNER || pJoc.j2.getPunts() >= PUNTUACIO_WINNER) {
-                /*
-                    Si el jugador 1 o el jugador 2 llega a la puntuación ganadora
-                    se llama al metodo gameOver() de la clase PanellJoc
-                 */
-
-                    if (pJoc.j1.getPunts() >= pJoc.j2.getPunts() + 2) {
-                        pJoc.gameOver(pJoc.j1);
-                    } else if (pJoc.j2.getPunts() >= pJoc.j1.getPunts() + 2) {
-                        pJoc.gameOver(pJoc.j2);
-                    }
-                }
-                pJoc.augmentarNivell();
-            /*
-                Le dice al procesador que el thread que se está ejecutando descanse por 10 milisegundos
-                lo que permite que el procesador ejecute otros threads y en particular el thread AWT-EventQueue
-                que llama al metodo paint
-             */
-                Thread.sleep(10);
-            }
-
-
-        }
     }
 
 }

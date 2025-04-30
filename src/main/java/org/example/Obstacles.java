@@ -101,7 +101,7 @@ public class Obstacles {
      * @param altura Altura del panell
      */
 
-    public void baileDelEspagueti(int altura) {
+    public void movimientObstacles(int altura) {
         // Mi cuerpo pide salsa
         y += ya;
 

@@ -15,10 +15,18 @@ import java.io.IOException;
         public static void main(String[] args) throws InterruptedException, IOException {
 
 
-        Joc joc = new Joc();
-        //MenuInicial m = new MenuInicial();
-        //m.mostrarMenu();
-        //acces.afegirInformacio(new Jugador("usuari", 10));
-        //MenuInicial menu = new MenuInicial();
+            //Joc joc = new Joc();
+
+
+            JFrame f = new JFrame("Retro Tenis");
+            MenuPrincipal menu = new MenuPrincipal();
+
+            f.setSize(1280, 800);
+            f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            f.add(menu);
+            f.setLocationRelativeTo(null);
+            f.setVisible(true);
+
+
+        }
     }
-}

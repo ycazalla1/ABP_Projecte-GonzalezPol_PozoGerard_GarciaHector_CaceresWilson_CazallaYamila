@@ -7,11 +7,25 @@ public class Racquet {
      *Mida de la pala
      */
     private final static int MIDA_AMPLADA = 30, MIDA_ALTURA = 150;
+
+    /**
+     * Posició i velocitat vertical
+     */
     private int x, y, ya = 0;
+
+    /**
+     *Panell del joc
+     */
     private PanellJoc panellJoc;
 
+    /**
+     * Costats de les pales
+     */
     private int palaJ1, palaJ2;
 
+    /**
+     *Constructor buit
+     */
     public Racquet() {
 
     }
@@ -28,16 +42,26 @@ public class Racquet {
         this.panellJoc = panellJoc;
     }
 
+    /**
+     * Limita el moviment de la pala
+     */
     public void raqcquetLimitBores(){
         if (y + ya > Variables.MARGES && y + ya < panellJoc.getHeight()-MIDA_ALTURA - Variables.MARGES){
             y += ya;
         }
     }
 
+    /**
+     *Retorna l'àrea de la pala
+     */
+
     public Rectangle getBounds() {
         return new Rectangle(x, y, MIDA_AMPLADA, MIDA_ALTURA);
     }
 
+    /**
+     *Coordenada X per col·lisions
+     */
     public int getTotalX() {
         // EL 40 ES EL MARGEN MÁS EL MARGEN DE LA RACQUET CON EL RECTANGULO
         if (x == 40)
@@ -46,15 +70,25 @@ public class Racquet {
             return x - MIDA_AMPLADA;
     }
 
+
+    /**
+     * Dibuixa la pala
+     */
     public void paint(Graphics g){
         g.fillRect(x, y, MIDA_AMPLADA, MIDA_ALTURA);
     }
 
+    /**
+     * Atura el moviment en deixar anar la tecla
+     */
     public void keyReleased(KeyEvent e) {
         ya = 0;
     }
 
 
+    /**
+     * Mou la pala segons la tecla
+     */
     public void keyPressed(KeyEvent e) {
         final int VELOCITAT_PALA = 6;
         // EL 40 ES EL MARGEN MÁS EL MARGEN DE LA RACQUET CON EL RECTANGULO
@@ -69,6 +103,10 @@ public class Racquet {
     }
 
 
+    /**
+     * Assigna costat de les pales segons punts
+     * @param punts
+     */
     public void setPala(int punts) {
         final int BARRA_ESQUERRA = panellJoc.posRCentral,
         BARRA_DRETA = panellJoc.ampleRCentral;

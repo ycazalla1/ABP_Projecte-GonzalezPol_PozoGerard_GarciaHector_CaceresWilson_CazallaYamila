@@ -144,6 +144,7 @@ public class Bola {
         y = Variables.alturaFinestra / 2;
     }
 
+
     public void incrementarVelocitatBola() {
         velocitatBola *= 1.1f;
         xa = (xa > 0) ? velocitatBola : -velocitatBola;

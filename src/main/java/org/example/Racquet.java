@@ -3,6 +3,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Racquet {
+    /**
+     *Mida de la pala
+     */
     private final static int MIDA_AMPLADA = 30, MIDA_ALTURA = 150;
     private int x, y, ya = 0;
     private PanellJoc panellJoc;
@@ -53,7 +56,7 @@ public class Racquet {
 
 
     public void keyPressed(KeyEvent e) {
-        final int VELOCITAT_PALA = 5;
+        final int VELOCITAT_PALA = 6;
         // EL 40 ES EL MARGEN MÁS EL MARGEN DE LA RACQUET CON EL RECTANGULO
         if (e.getKeyCode() == KeyEvent.VK_W && x == 40)
             ya = -VELOCITAT_PALA;
@@ -64,6 +67,7 @@ public class Racquet {
         if (e.getKeyCode() == KeyEvent.VK_L && x != 40)
             ya = VELOCITAT_PALA;
     }
+
 
     public void setPala(int punts) {
         final int BARRA_ESQUERRA = panellJoc.posRCentral,

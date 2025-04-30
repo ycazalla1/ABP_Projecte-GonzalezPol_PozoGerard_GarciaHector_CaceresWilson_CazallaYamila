@@ -5,11 +5,12 @@ import java.io.IOException;
 /**
  *
  */
-public class sound {
+public class Sound {
     private Clip clip;
 
+
     public void carregarSo(String ruta) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        File file = new File("ruta");
+        File file = new File(ruta);
         AudioInputStream audio = AudioSystem.getAudioInputStream(file);
         clip = AudioSystem.getClip();
         clip.open(audio);

@@ -11,6 +11,8 @@ public class Variables {
      */
     public static final int MARGE_RACQUET_RECTANGLE = 10;
 
+    public static String rutaFons = "src/resources/images/fons_1_pingpong.png";
+
 
 
 }

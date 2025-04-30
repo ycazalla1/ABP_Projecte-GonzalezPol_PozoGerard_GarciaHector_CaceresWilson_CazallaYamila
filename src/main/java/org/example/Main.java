@@ -2,18 +2,17 @@
 
 //import org.example.connector.AccesDades1;
 
-import org.example.menu.MenuInicial;
+import org.example.menu.MenuPrincipal;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
-public class Main {
-    public void acces(){
-
-    }
-
-
-
-    public static void main(String[] args) throws InterruptedException {
+    public class Main {
+        public static void main(String[] args) throws InterruptedException, IOException {
 
 
         Joc joc = new Joc();

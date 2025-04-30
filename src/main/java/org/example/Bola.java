@@ -24,15 +24,15 @@ public class Bola {
     /**
      * Velocitat de la bola
      */
-    private static int velocitatBola = 1;
+    private static float velocitatBola = 0.4f;
     /**
      * Coordenades ón apareix la bola
      */
-    int x = Variables.ampladaFinestra /2, y = Variables.alturaFinestra /2;
+    float x = Variables.ampladaFinestra /2, y = Variables.alturaFinestra /2;
     /**
      * Direcció que segueix la bola
      */
-    int xa = 2, ya = 2;
+    float xa = 2, ya = 2;
     /**
      * Constructor de la bola
      *
@@ -40,6 +40,8 @@ public class Bola {
      */
     public Bola(PanellJoc panellJoc) {
         this.panellJoc = panellJoc;
+        this.xa = velocitatBola;
+        this.ya = velocitatBola;
     }
 
     /**
@@ -49,14 +51,26 @@ public class Bola {
      * abans d'impactar
      */
     public void bolaMoviment() {
-        if (x + xa < Variables.MARGES)
-            xa = velocitatBola;
-        if (x + xa > panellJoc.getWidth() - Variables.MARGES - Variables.MIDA_AMPLE_RACQUET)
-            xa = -velocitatBola;
-        if (y + ya < Variables.MARGES)
-            ya = velocitatBola;
-        if (y + ya > panellJoc.getHeight() - Variables.MARGES - Variables.MIDA_AMPLE_RACQUET)
-            ya = -velocitatBola;
+
+        System.out.println(velocitatBola);
+
+
+        // Si la bola surt per l'esquerra
+        if (x <= Variables.MARGES) {
+            panellJoc.j2.setPunts(panellJoc.j2.getPunts()+1);
+            reiniciarPosicio();
+        }
+
+        // Si la bola surt per la dreta
+        if (x >= Variables.ampladaFinestra - (Variables.MARGES*2)) {
+            panellJoc.j1.setPunts(panellJoc.j1.getPunts()+1);
+            reiniciarPosicio();
+        }
+
+        // Rebote en los bordes superior e inferior
+        if (y + ya < Variables.MARGES || y + ya > panellJoc.getHeight() - Variables.MARGES - Variables.MIDA_AMPLE_RACQUET) {
+            ya = -ya;
+        }
 
         x = x + xa;
         y = y + ya;
@@ -71,26 +85,21 @@ public class Bola {
             x = panellJoc.r2.getTotalX() - MIDA_BOLA;
         }
 
+
+
         // Collisions amb obstacles
+        // Cuando toca los obstáculos, la bola se ralla y ya no se reincia cuando toca las paredes
         for (int i = 0; i < panellJoc.obstacles.size(); i++) {
             if (collision(panellJoc.obstacles.get(i))) {
+                System.out.println(xa);
                 xa = (xa == velocitatBola) ? -velocitatBola : velocitatBola;
                 ya = (ya == velocitatBola) ? -velocitatBola : velocitatBola;
                 panellJoc.obstacles.remove(i);
+                break;
             }
         }
 
-        // Si la bola surt per l'esquerra
-        if (x <= Variables.MARGES) {
-            panellJoc.j2.setPunts(panellJoc.j2.getPunts()+1);
-            reiniciarPosicio();
-        }
 
-        // Si la bola surt per la dreta
-        if (x >= Variables.ampladaFinestra - (Variables.MARGES*2)) {
-            panellJoc.j1.setPunts(panellJoc.j1.getPunts()+1);
-            reiniciarPosicio();
-        }
 
     }
 
@@ -113,7 +122,7 @@ public class Bola {
      * @return Rectangle amb l'informació de la bola
      */
     public Rectangle getBounds() {
-        return new Rectangle(x, y, MIDA_BOLA, MIDA_BOLA);
+        return new Rectangle((int)x, (int)y, MIDA_BOLA, MIDA_BOLA);
     }
 
     /**
@@ -123,7 +132,7 @@ public class Bola {
      */
     public void paintComponent(Graphics2D g) {
         // (posició X, posició Y, amplada, altura)
-        g.fillOval(x, y, MIDA_BOLA, MIDA_BOLA);
+        g.fillOval((int)x, (int)y, MIDA_BOLA, MIDA_BOLA);
         bolaMoviment();
     }
 
@@ -136,7 +145,9 @@ public class Bola {
     }
 
     public void incrementarVelocitatBola() {
-        velocitatBola++;
+        velocitatBola *= 1.1f;
+        xa = (xa > 0) ? velocitatBola : -velocitatBola;
+        ya = (ya > 0) ? velocitatBola : -velocitatBola;
     }
 
 }

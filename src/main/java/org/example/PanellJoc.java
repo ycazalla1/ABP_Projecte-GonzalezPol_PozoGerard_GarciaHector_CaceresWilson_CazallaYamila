@@ -1,10 +1,17 @@
 package org.example;
 
+import org.example.menu.MenuPausa;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import static org.example.Variables.*;
 
 
 @SuppressWarnings("serial")
@@ -14,21 +21,27 @@ public class PanellJoc extends JPanel {
     private static final int LIMIT_OBSTACLES = 10;
     private static final int PUNTUACIO_REQUERIDA_INICIAL = 5000;
     private int puntuacioRequerida = PUNTUACIO_REQUERIDA_INICIAL;
+    //private Sound so;
 
+    Image fons;
 
+    /**
+     * Temporitzador del joc
+     */
     Temporitzador t = new Temporitzador();
 
     Bola b = new Bola(this);
-    Racquet r1 = new Racquet(Variables.MARGES + Variables.MARGE_RACQUET_RECTANGLE, Variables.MARGES, this);
-    Racquet r2 = new Racquet(Variables.ampladaFinestra - (Variables.MARGES + Variables.MIDA_AMPLE_RACQUET + Variables.MARGE_RACQUET_RECTANGLE), Variables.MARGES, this);
+    Racquet r1 = new Racquet(MARGES + MARGE_RACQUET_RECTANGLE, MARGES + MARGE_RACQUET_RECTANGLE, this);
+    Racquet r2 = new Racquet(ampladaFinestra - (MARGES + MIDA_AMPLE_RACQUET + MARGE_RACQUET_RECTANGLE),
+            MARGES + MARGE_RACQUET_RECTANGLE, this);
 
     Jugador j1 = new Jugador("Yamila", 0);
     Jugador j2 = new Jugador("Javi", 0);
 
     ArrayList<Obstacles> obstacles = new ArrayList<>();
 
-    int posRCentral = Variables.MARGES, ampleRCentral = Variables.ampladaFinestra - (Variables.MARGES*2),
-    altRCentral = Variables.alturaFinestra - (Variables.MARGES*2);
+    int posRCentral = MARGES, ampleRCentral = ampladaFinestra - (MARGES*2),
+    altRCentral = alturaFinestra - (MARGES*2);
 
     public static boolean pausa = false;
 
@@ -41,7 +54,11 @@ public class PanellJoc extends JPanel {
      * @param altura  Altura del panell
      */
 
-    public PanellJoc(int amplada, int altura) {
+    public PanellJoc(int amplada, int altura, String[] nomsJugadors, String nivell) throws IOException {
+        //so = new Sound();
+        //so.carregarSo("src/resources/sounds/Tenis_En_La_Playa.mp3");
+        ImageIcon img = new ImageIcon(rutaFons);
+        fons = img.getImage();
         setPanelSize(amplada, altura);
         addKeyListener(new KeyListener() {
             @Override
@@ -61,7 +78,17 @@ public class PanellJoc extends JPanel {
                     } else {
                         pausa = false;
                     }
-
+                    MenuPausa menuPausa = new MenuPausa(() -> {
+                        pausa = false;
+                        //so.reproduirSo();
+                    }, () -> {
+                        //so.reproduirSo();
+                        //reiniciarJoc();
+                    }, () -> {
+                        //so.reproduirSo();
+                        //t.pararTemporitzador();
+                        //menuGame();
+                    });
                 }
             }
 
@@ -90,21 +117,40 @@ public class PanellJoc extends JPanel {
         r2.raqcquetLimitBores();
     }
 
+
+    /**
+     * Método que se encarga de mostrar el menú del juego
+     */
+    /*
     public void menuGame() {
-        JPanel menu = new JPanel();
-        Dimension d = new Dimension(50, 100);
-        menu.setPreferredSize(d);
-        JButton b1 = new JButton("Continuar");
-        JButton b2 = new JButton("Reiniciar");
-        JButton b3 = new JButton("Sortir");
-        b1.setBounds(new Rectangle(0, 0, 200, 50));
-        menu.add(b1);
-        menu.add(b2);
-        menu.add(b3);
-        JOptionPane.showMessageDialog(null, menu,
-                "Menu", JOptionPane.YES_NO_OPTION);
+        JDialog dialog = new JDialog((Frame) null, "Menu", true);
+        MenuPausa mp = new MenuPausa(dialog);
+
+        dialog.add(mp);
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        // Agregar KeyListener para cerrar con ESC
+        dialog.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    dialog.dispose();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
+
+        dialog.setFocusable(true);
+        dialog.setVisible(true);
         pausa = false;
     }
+
+     */
 
     public void gameOver(Jugador j) {
         JOptionPane.showMessageDialog(this, "El guanyador és:" + j.getNom() + "\n"
@@ -125,7 +171,7 @@ public class PanellJoc extends JPanel {
         if (Temporitzador.getMilisegons() > puntuacioRequerida) {
             nivell++;
             if (obstacles.size() < LIMIT_OBSTACLES) {
-                obstacles = Obstacles.generarObstacles(Variables.ampladaFinestra, Variables.alturaFinestra, nivell * 3);
+                obstacles = Obstacles.generarObstacles(ampladaFinestra, alturaFinestra, nivell);
             }
             b.incrementarVelocitatBola();
             //if (obstacles.size() < LIMIT_OBSTACLES)
@@ -143,70 +189,72 @@ public class PanellJoc extends JPanel {
          */
         super.paintComponent(g);
 
-            Graphics2D bola = (Graphics2D) g;
-            Graphics2D barra1 = (Graphics2D) g;
-            Graphics2D barra2 = (Graphics2D) g;
-            Graphics2D rCentral = (Graphics2D) g;
-            Graphics2D punts = (Graphics2D) g;
-            Graphics2D J1 = (Graphics2D) g;
-            Graphics2D J2 = (Graphics2D) g;
-            Graphics2D temporitzador = (Graphics2D) g;
-            Graphics2D nivellJoc = (Graphics2D) g;
-            Graphics2D obstaclesGraphics = (Graphics2D) g;
+        g.drawImage(fons, 0, 0, ampladaFinestra, alturaFinestra, null);
 
-            //Dibuja el fondo del panel
+        Graphics2D bola = (Graphics2D) g;
+        Graphics2D barra1 = (Graphics2D) g;
+        Graphics2D barra2 = (Graphics2D) g;
+        Graphics2D rCentral = (Graphics2D) g;
+        Graphics2D punts = (Graphics2D) g;
+        Graphics2D J1 = (Graphics2D) g;
+        Graphics2D J2 = (Graphics2D) g;
+        Graphics2D temporitzador = (Graphics2D) g;
+        Graphics2D nivellJoc = (Graphics2D) g;
+        Graphics2D obstaclesGraphics = (Graphics2D) g;
 
-
-            //Suaviza los bordes de las figuras
-            bola.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON);
+        //Dibuja el fondo del panel
 
 
-            rCentral.setColor(Color.BLACK);
-            rCentral.drawRect(posRCentral, posRCentral,
-                    ampleRCentral, altRCentral);
-
-            bola.setColor(Color.BLACK);
-            b.paintComponent(bola);
-
-            barra1.setColor(Color.BLACK);
-            barra2.setColor(Color.BLACK);
+        //Suaviza los bordes de las figuras
+        bola.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
 
 
-            r1.paint(barra1);
-            r2.paint(barra2);
+        rCentral.setColor(Color.BLACK);
+        rCentral.drawRect(posRCentral, posRCentral,
+                ampleRCentral, altRCentral);
 
-            for (int i = 0; i < obstacles.size(); i++) {
-                obstacles.get(i).paint(obstaclesGraphics);
-                if (nivell > 2) {
-                    obstacles.get(i).baileDelEspagueti(this.getHeight());
-                }
+        bola.setColor(Color.BLACK);
+        b.paintComponent(bola);
+
+        barra1.setColor(Color.BLACK);
+        barra2.setColor(Color.BLACK);
+
+
+        r1.paint(barra1);
+        r2.paint(barra2);
+
+        for (int i = 0; i < obstacles.size(); i++) {
+            obstacles.get(i).paint(obstaclesGraphics);
+            if (nivell > 2) {
+                obstacles.get(i).movimientObstacles(this.getHeight());
             }
+        }
 
 
-            J1.setColor(Color.BLACK);
-            J1.setFont(new Font("Verdana", Font.BOLD, MIDA_FONT));
-            J1.drawString(j1.getNom(), 0, 20);
+        J1.setColor(Color.BLACK);
+        J1.setFont(new Font("Verdana", Font.BOLD, MIDA_FONT));
+        J1.drawString(j1.getNom(), 0, 20);
 
-            J2.setColor(Color.BLACK);
-            J2.setFont(new Font("Verdana", Font.BOLD, MIDA_FONT));
-            J2.drawString(j2.getNom(), Variables.ampladaFinestra -30, 20);
+        J2.setColor(Color.BLACK);
+        J2.setFont(new Font("Verdana", Font.BOLD, MIDA_FONT));
+        J2.drawString(j2.getNom(), Variables.ampladaFinestra -30, 20);
 
-            punts.setFont(new Font("Verdana", Font.BOLD, MIDA_FONT));
-            punts.setColor(Color.BLACK);
-            punts.drawString(j1.getPunts() + " | " + j2.getPunts(), Variables.ampladaFinestra /2, 20);
+        punts.setFont(new Font("Verdana", Font.BOLD, MIDA_FONT));
+        punts.setColor(Color.BLACK);
+        punts.drawString(j1.getPunts() + " | " + j2.getPunts(), ampladaFinestra /2, 20);
 
-            String nivellString = "Nivell: " + nivell;
-            nivellJoc.setFont(new Font("Verdana", Font.BOLD, MIDA_FONT));
-            nivellJoc.drawString(nivellString, Variables.ampladaFinestra /2, Variables.alturaFinestra -50);
+        String nivellString = "Nivell: " + nivell;
+        nivellJoc.setFont(new Font("Verdana", Font.BOLD, MIDA_FONT));
+        nivellJoc.drawString(nivellString, ampladaFinestra /2, alturaFinestra -50);
 
 
         /*Dibuja el tiempo
         */
 
-            String temps = "Temps: " + Integer.toString(t.getMilisegons()) + "ms";
-            temporitzador.setFont(new Font("Verdana", Font.BOLD, MIDA_FONT));
-            temporitzador.drawString(temps, Variables.ampladaFinestra /2, Variables.alturaFinestra -30);
+        String temps = "Temps: " + Integer.toString(t.getMilisegons()) + "ms";
+        temporitzador.setFont(new Font("Verdana", Font.BOLD, MIDA_FONT));
+        temporitzador.drawString(temps, ampladaFinestra /2, alturaFinestra -30);
 
 
     }

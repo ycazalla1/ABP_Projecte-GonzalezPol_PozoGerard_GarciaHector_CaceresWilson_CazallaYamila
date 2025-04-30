@@ -74,6 +74,9 @@ public class PantallaConfiguracionJugadores extends JPanel{
             try {
                 Joc joc = new Joc(jugadores, nivell);
                 joc.pJoc.setVisible(true);
+                // Cierra la ventana de configuración
+                Window ventana = SwingUtilities.getWindowAncestor(this);
+                ventana.dispose();
             } catch (InterruptedException|IOException ex) {
                 ex.printStackTrace();
             }

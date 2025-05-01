@@ -1,16 +1,13 @@
 package org.example;
 
-import org.example.menu.MenuPausa;
+import org.example.connector.Acces;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import static org.example.Variables.*;
 
 
@@ -19,8 +16,7 @@ public class PanellJoc extends JPanel {
 
     private final int MIDA_FONT = 20;
     private static final int LIMIT_OBSTACLES = 10;
-    private static final int PUNTUACIO_REQUERIDA_INICIAL = 5000;
-    private int puntuacioRequerida = PUNTUACIO_REQUERIDA_INICIAL;
+    private int tempsNivell = Variables.TEMPS_NIVELL;
     //private Sound so;
 
     Image fons;
@@ -30,13 +26,13 @@ public class PanellJoc extends JPanel {
      */
     Temporitzador t = new Temporitzador();
 
-    Bola b = new Bola(this);
+    Bola b;
     Racquet r1 = new Racquet(MARGES + MARGE_RACQUET_RECTANGLE, MARGES + MARGE_RACQUET_RECTANGLE, this);
     Racquet r2 = new Racquet(ampladaFinestra - (MARGES + MIDA_AMPLE_RACQUET + MARGE_RACQUET_RECTANGLE),
             MARGES + MARGE_RACQUET_RECTANGLE, this);
 
-    Jugador j1 = new Jugador("Yamila", 0);
-    Jugador j2 = new Jugador("Javi", 0);
+    Jugador j1;
+    Jugador j2;
 
     ArrayList<Obstacles> obstacles = new ArrayList<>();
 
@@ -45,7 +41,9 @@ public class PanellJoc extends JPanel {
 
     public static boolean pausa = false;
 
-    private int nivell = 0;
+    public int nivell;
+
+    Acces ac = new Acces();
 
     /**
      * Constructor del panell de joc
@@ -60,6 +58,19 @@ public class PanellJoc extends JPanel {
         ImageIcon img = new ImageIcon(rutaFons);
         fons = img.getImage();
         setPanelSize(amplada, altura);
+
+        b = new Bola(this, nivell);
+        this.j1 = new Jugador(nomsJugadors[0], 0);
+        this.j2 = new Jugador(nomsJugadors[1], 0);
+        ac.afegirInformacio(j1, j2);
+
+        this.nivell = Integer.parseInt(nivell);
+
+        if (this.nivell > 2) {
+            obstacles = Obstacles.generarObstacles(ampladaFinestra, alturaFinestra, Integer.parseInt(nivell));
+        }
+
+
         addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -78,17 +89,7 @@ public class PanellJoc extends JPanel {
                     } else {
                         pausa = false;
                     }
-                    MenuPausa menuPausa = new MenuPausa(() -> {
-                        pausa = false;
-                        //so.reproduirSo();
-                    }, () -> {
-                        //so.reproduirSo();
-                        //reiniciarJoc();
-                    }, () -> {
-                        //so.reproduirSo();
-                        //t.pararTemporitzador();
-                        //menuGame();
-                    });
+                    // Aquí tiene que ir el menú de pausa
                 }
             }
 
@@ -117,40 +118,9 @@ public class PanellJoc extends JPanel {
         r2.raqcquetLimitBores();
     }
 
-
-    /**
-     * Método que se encarga de mostrar el menú del juego
-     */
-    /*
-    public void menuGame() {
-        JDialog dialog = new JDialog((Frame) null, "Menu", true);
-        MenuPausa mp = new MenuPausa(dialog);
-
-        dialog.add(mp);
-        dialog.pack();
-        dialog.setLocationRelativeTo(null);
-        // Agregar KeyListener para cerrar con ESC
-        dialog.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {}
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    dialog.dispose();
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {}
-        });
-
-        dialog.setFocusable(true);
-        dialog.setVisible(true);
-        pausa = false;
+    public int getNivell() {
+        return nivell;
     }
-
-     */
 
     public void gameOver(Jugador j) {
         JOptionPane.showMessageDialog(this, "El guanyador és:" + j.getNom() + "\n"
@@ -168,15 +138,13 @@ public class PanellJoc extends JPanel {
     }
 
     public void augmentarNivell() {
-        if (Temporitzador.getMilisegons() > puntuacioRequerida) {
+        if (Temporitzador.getMilisegons() > tempsNivell) {
             nivell++;
             if (obstacles.size() < LIMIT_OBSTACLES) {
                 obstacles = Obstacles.generarObstacles(ampladaFinestra, alturaFinestra, nivell);
             }
             b.incrementarVelocitatBola();
-            //if (obstacles.size() < LIMIT_OBSTACLES)
-            //obstacles = Obstacles.generarObstacles(AMPLADA_FINESTRA, ALTURA_FINESTRA, nivell * 3);
-            puntuacioRequerida += PUNTUACIO_REQUERIDA_INICIAL;
+            tempsNivell += Variables.TEMPS_NIVELL;
         }
     }
 
@@ -223,6 +191,7 @@ public class PanellJoc extends JPanel {
 
         r1.paint(barra1);
         r2.paint(barra2);
+
 
         for (int i = 0; i < obstacles.size(); i++) {
             obstacles.get(i).paint(obstaclesGraphics);

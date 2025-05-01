@@ -79,13 +79,13 @@ public class MenuPrincipal extends JPanel {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 boton.setForeground(new Color(255, 255, 0)); // amarillo
-                MenuPrincipal.this.repaint(); // 🔥 esto soluciona el problema de fondo
+                MenuPrincipal.this.repaint();
             }
 
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 boton.setForeground(new Color(0, 255, 255)); // azul celeste
-                MenuPrincipal.this.repaint(); // 🔥 también aquí
+                MenuPrincipal.this.repaint();
             }
         });
 

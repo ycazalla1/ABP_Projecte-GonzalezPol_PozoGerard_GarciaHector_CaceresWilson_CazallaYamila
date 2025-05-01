@@ -56,7 +56,7 @@ public class Racquet {
      */
 
     public Rectangle getBounds() {
-        return new Rectangle(x, y, MIDA_AMPLADA, MIDA_ALTURA);
+        return new Rectangle(x, y, Variables.MIDA_AMPLE_RACQUET, Variables.MIDA_ALT_RACQUET);
     }
 
     /**
@@ -65,9 +65,9 @@ public class Racquet {
     public int getTotalX() {
         // EL 40 ES EL MARGEN MÁS EL MARGEN DE LA RACQUET CON EL RECTANGULO
         if (x == 40)
-            return x + MIDA_AMPLADA;
+            return x + Variables.MIDA_AMPLE_RACQUET;
         else
-            return x - MIDA_AMPLADA;
+            return x - Variables.MIDA_AMPLE_RACQUET;
     }
 
 
@@ -75,7 +75,8 @@ public class Racquet {
      * Dibuixa la pala
      */
     public void paint(Graphics g){
-        g.fillRect(x, y, MIDA_AMPLADA, MIDA_ALTURA);
+        g.fillRect(x, y, Variables.MIDA_AMPLE_RACQUET, Variables.MIDA_ALT_RACQUET);
+
     }
 
     /**

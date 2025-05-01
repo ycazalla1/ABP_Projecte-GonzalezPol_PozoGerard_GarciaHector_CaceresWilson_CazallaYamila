@@ -1,6 +1,11 @@
 package org.example;
 
+import org.example.connector.Acces;
+
+import javax.swing.*;
 import java.awt.*;
+
+import static org.example.Variables.INCREMENT_VELOCITAT_BOLA;
 
 /**
  * Classe que representa la bola del joc
@@ -24,7 +29,7 @@ public class Bola {
     /**
      * Velocitat de la bola
      */
-    private static float velocitatBola = 0.4f;
+    private static float velocitatBola;
     /**
      * Coordenades ón apareix la bola
      */
@@ -32,14 +37,17 @@ public class Bola {
     /**
      * Direcció que segueix la bola
      */
-    float xa = 2, ya = 2;
+    float xa, ya;
     /**
      * Constructor de la bola
      *
      * @param panellJoc El panell del joc per dibuixar la bola
      */
-    public Bola(PanellJoc panellJoc) {
+    public Bola(PanellJoc panellJoc, String nivell) {
         this.panellJoc = panellJoc;
+        velocitatBola = (float) (Variables.VELOCITAT_BOLA_INICIAL * Math.pow(INCREMENT_VELOCITAT_BOLA, Double.parseDouble(nivell)));
+        System.out.println("Nivell: " + Integer.parseInt(nivell));
+        System.out.println("velocitat bola: " + velocitatBola);
         this.xa = velocitatBola;
         this.ya = velocitatBola;
     }
@@ -57,14 +65,16 @@ public class Bola {
 
         // Si la bola surt per l'esquerra
         if (x <= Variables.MARGES) {
-            panellJoc.j2.setPunts(panellJoc.j2.getPunts()+1);
-            reiniciarPosicio();
+            panellJoc.j2.setPunts(Temporitzador.getMilisegons());
+            Acces.modificarPuntuacio(panellJoc.j2);
+            JOptionPane.showMessageDialog(null,"El jugador 2 ha guanyat", "Jugador 2", JOptionPane.INFORMATION_MESSAGE);
         }
 
         // Si la bola surt per la dreta
         if (x >= Variables.ampladaFinestra - (Variables.MARGES*2)) {
-            panellJoc.j1.setPunts(panellJoc.j1.getPunts()+1);
-            reiniciarPosicio();
+            panellJoc.j1.setPunts(Temporitzador.getMilisegons());
+            Acces.modificarPuntuacio(panellJoc.j1);
+            JOptionPane.showMessageDialog(null,"El jugador 1 ha guanyat", "Jugador 1", JOptionPane.INFORMATION_MESSAGE);
         }
 
         // Rebote en los bordes superior e inferior
@@ -84,8 +94,6 @@ public class Bola {
             xa = -velocitatBola;
             x = panellJoc.r2.getTotalX() - MIDA_BOLA;
         }
-
-
 
         // Collisions amb obstacles
         // Cuando toca los obstáculos, la bola se ralla y ya no se reincia cuando toca las paredes
@@ -146,7 +154,7 @@ public class Bola {
 
 
     public void incrementarVelocitatBola() {
-        velocitatBola *= 1.1f;
+        velocitatBola *= INCREMENT_VELOCITAT_BOLA;
         xa = (xa > 0) ? velocitatBola : -velocitatBola;
         ya = (ya > 0) ? velocitatBola : -velocitatBola;
     }

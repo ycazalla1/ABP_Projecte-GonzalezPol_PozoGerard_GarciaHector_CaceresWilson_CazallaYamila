@@ -1,14 +1,18 @@
 package org.example.menu;
 import org.example.Joc;
+import org.example.connector.Acces;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
 public class PantallaConfiguracionJugadores extends JPanel{
+
     private Image fondo;
     public static String[] jugadores;
     public static String nivell;
+
+    Acces ac = new Acces();
 
     public PantallaConfiguracionJugadores(Runnable volverAlMenu, java.util.function.BiConsumer<String[], String> iniciarJuego) {
         ImageIcon iconoFondo = new ImageIcon("src/resources/images/fons_1_pingpong.png");

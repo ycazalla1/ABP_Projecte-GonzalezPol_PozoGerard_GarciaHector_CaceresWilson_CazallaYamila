@@ -21,20 +21,37 @@ create table traduccions (
 );
 
 
-INSERT INTO traduccions  VALUES
-('jugar', 'cat', 'Jugar'),
-('opcions', 'cat', 'Opcions'),
-('sortir', 'cat', 'Sortir'),
-('triar_idioma', 'cat', 'Tria un idioma');
+CREATE DATABASE IF NOT EXISTS retrotenis;
+USE retrotenis;
 
-INSERT INTO traduccions (clau, idioma, text) VALUES
-('jugar', 'es', 'Jugar'),
-('opcions', 'es', 'Opciones'),
-('sortir', 'es', 'Salir'),
-('triar_idioma', 'es', 'Elige un idioma');
+create table traduccions (
+	clau varchar(50),
+    text_catala varchar (50),
+    text_castella varchar (50),
+    text_angles varchar (50),
+    primary key (clau)
+);
 
-INSERT INTO traduccions (clau, idioma, text) VALUES
-('jugar', 'en', 'Play'),
-('opcions', 'en', 'Options'),
-('sortir', 'en', 'Exit'),
-('triar_idioma', 'en', 'Choose a language');
+INSERT INTO traduccions VALUES
+('jugar', 'Jugar', 'Jugar', 'Play'),
+('opcions', 'Opcions', 'Opciones', 'Options'),
+('sortir', 'Sortir', 'Salir', 'Exit'),
+
+-- Menú opcions
+('idioma', 'Seleccionar Idioma', 'Idioma', 'Language'),
+('resolucio', 'Seleccionar resolució', 'Resolución', 'Resolution'),
+('volum', 'Volum', 'Volumen', 'Volume'),
+('guardar', 'Guardar Opcions', 'Guardar Opciones', 'Save Options'),
+
+-- Menú jugar
+('configuracio_jugadors', 'Configuració dels Jugadors', 'Configuración de los Jugadores', 'Player Settings'),
+('nivell', 'Nivell', 'Nivel', 'Level'),
+('jugador1', 'Jugador 1', 'Jugador 1', 'Player 1'),
+('jugador2', 'Jugador 2', 'Jugador 2', 'Player 2'),
+('iniciar_joc', 'Iniciar Joc', 'Iniciar Juego', 'Start Game'),
+
+-- Menú pausa
+('renaudar', 'Renaudar', 'Reanudar', 'Resume'),
+('pausa', 'Pausa', 'Pausa', 'Pause'),
+('reiniciar', 'Reiniciar', 'Reiniciar', 'Restart'),
+('salir_al_menu', 'Sortir del menu', 'Salir al menú', 'Exit to Menu');

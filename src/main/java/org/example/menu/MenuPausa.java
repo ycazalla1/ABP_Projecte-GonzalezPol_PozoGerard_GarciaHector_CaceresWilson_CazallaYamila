@@ -72,6 +72,8 @@ public class MenuPausa extends JPanel {
                 framePrincipal.revalidate();
                 framePrincipal.repaint();
 
+                nouPanell.requestFocusInWindow();
+
                 // Reactivar el joc
                 PanellJoc.pausa = false;
                 Temporitzador.iniciarTemporitzador();  // Si tens un mètode per reiniciar-lo

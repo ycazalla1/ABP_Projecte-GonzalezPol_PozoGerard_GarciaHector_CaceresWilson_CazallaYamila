@@ -73,7 +73,7 @@ public class PanellJoc extends JPanel {
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(PanellJoc.this);
 
                     // Mostrar menú de pausa en el JFrame correcto
-                    mostrarMenuPausa(frame, reiniciarPartida, sortirMenu);
+                    mostrarMenuPausa(frame, PanellJoc.this);
                 }
             }
 

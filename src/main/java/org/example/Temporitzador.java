@@ -51,6 +51,27 @@ public class Temporitzador {
         };
         timer.scheduleAtFixedRate(tarea, 0, 1);
     }
+    public static void reiniciarTemporitzador() {
+        // Atura i cancel·la el temporitzador anterior
+        if (timer != null) {
+            timer.cancel();
+        }
+
+        // Reinicia el temporitzador amb una nova instància
+        timer = new Timer();
+
+        TimerTask tarea = new TimerTask() {
+            @Override
+            public void run() {
+                if (!PanellJoc.pausa) {
+                    milisegons++;
+                }
+            }
+        };
+
+        // Programa la nova tasca per executar-se cada 1 ms
+        timer.scheduleAtFixedRate(tarea, 0, 1);
+    }
 
 
     public static void aturarTemporitzador() {

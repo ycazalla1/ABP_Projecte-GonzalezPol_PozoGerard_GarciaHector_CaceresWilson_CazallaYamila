@@ -17,9 +17,11 @@ import static org.example.menu.PantallaConfiguracionJugadores.nivell;
 public class MenuPausa extends JPanel {
     private final Image fondo;
 
-    public MenuPausa(JFrame framePrincipal, Runnable reiniciarJuegoCallback, Runnable irAlMenuPrincipal) {
+    public MenuPausa(JFrame framePrincipal, PanellJoc panellJoc) {
+
         ImageIcon bg = new ImageIcon("src/resources/images/fons_1_pingpong.png");
         fondo = bg.getImage();
+
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(Color.BLACK);
@@ -34,10 +36,25 @@ public class MenuPausa extends JPanel {
         // Botón Reanudar
         JButton btnReanudar = crearBoton("REANUDAR", fuente, () -> {
             PanellJoc.pausa = false;
-            Temporitzador.iniciarTemporitzador();
+            Temporitzador.reiniciarTemporitzador();
             framePrincipal.getContentPane().remove(this);
             framePrincipal.revalidate();
             framePrincipal.repaint();
+            // Reiniciar el bucle del joc
+            new Thread(() -> {
+                try {
+                    while (true) {
+                        if (!PanellJoc.pausa) {
+                            panellJoc.move();
+                            panellJoc.repaint();
+                            panellJoc.augmentarNivell();
+                            Thread.sleep(10);
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
         });
         add(btnReanudar);
         add(Box.createVerticalStrut(30));
@@ -133,8 +150,8 @@ public class MenuPausa extends JPanel {
     }
 
     // Método para mostrar el menú de pausa
-    public static void mostrarMenuPausa(JFrame framePrincipal, Runnable reiniciarJuego, Runnable irAlMenuPrincipal) {
-        MenuPausa menuPausa = new MenuPausa(framePrincipal, reiniciarJuego, irAlMenuPrincipal);
+    public static void mostrarMenuPausa(JFrame framePrincipal, PanellJoc pJoc) {
+        MenuPausa menuPausa = new MenuPausa(framePrincipal, pJoc);
 
         // Configurar el menú de pausa
         menuPausa.setBounds(0, 0, framePrincipal.getWidth(), framePrincipal.getHeight());

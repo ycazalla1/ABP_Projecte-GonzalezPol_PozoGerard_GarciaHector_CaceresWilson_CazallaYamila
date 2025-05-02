@@ -14,6 +14,7 @@ public class MenuOpciones extends JPanel {
     private JComboBox<String> comboResolucion;
     private JSlider sliderVolumen;
     private Image fondo;
+    private JButton btnGuardarTodo;
 
     public MenuOpciones(Runnable volverAlMenu) {
         ImageIcon bg = new ImageIcon("src/resources/images/fons_1_pingpong.png");
@@ -89,18 +90,35 @@ public class MenuOpciones extends JPanel {
         panelVolumen.add(sliderVolumen);
         add(panelVolumen);
 
-        // Botón GUARDAR (abajo derecha)
-        JButton btnGuardarTodo = crearBoton(Acces.carregarIdioma(moGuardar), fuente, () -> {
+        // Botón GUARDAR (abajo derecha).
+        btnGuardarTodo = crearBoton(Acces.carregarIdioma(moGuardar), fuente, () -> {
             idiomaSeleccionado = (String) comboIdiomas.getSelectedItem();
             resolucionSeleccionada = (String) comboResolucion.getSelectedItem();
+            ampladaFinestra = Integer.parseInt(resolucionSeleccionada.split("x")[0]);
+            alturaFinestra = Integer.parseInt(resolucionSeleccionada.split("x")[1]);
+
             int volumen = sliderVolumen.getValue();
+
+            // Cambiar idioma dinámicamente
+            lblIdioma.setText(Acces.carregarIdioma(moIdioma));
+            lblResolucion.setText(Acces.carregarIdioma(moResolucio));
+            lblVolumen.setText(Acces.carregarIdioma(moVolum));
+            btnGuardarTodo.setText(Acces.carregarIdioma(moGuardar));
+            btnAtras.setText(Acces.carregarIdioma(BOTO_TORNAR));
+
+            JFrame framePrincipal = (JFrame) SwingUtilities.getWindowAncestor(this);
+            if (framePrincipal != null) {
+                framePrincipal.setSize(ampladaFinestra, alturaFinestra);
+                framePrincipal.revalidate();
+                framePrincipal.repaint();
+            }
 
             JOptionPane.showMessageDialog(this,
                     "Opciones guardadas:\nIdioma: " + idiomaSeleccionado +
                             "\nResolución: " + resolucionSeleccionada +
                             "\nVolumen: " + volumen);
         });
-        btnGuardarTodo.setBounds(950, 650, 280, 50);
+        btnGuardarTodo.setBounds(950, 550, 280, 50);
         add(btnGuardarTodo);
     }
 

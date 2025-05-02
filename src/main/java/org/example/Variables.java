@@ -1,13 +1,10 @@
 package org.example;
 
 import org.example.menu.MenuPrincipal;
-import org.example.menu.PantallaConfiguracionJugadores;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 
-import static org.example.Temporitzador.aturarTemporitzador;
 import static org.example.menu.PantallaConfiguracionJugadores.jugadors;
 import static org.example.menu.PantallaConfiguracionJugadores.nivell;
 
@@ -61,12 +58,14 @@ public class Variables {
     /**
      * Indica l'amplada i l'alçada de la finestra
      */
-    public static int ampladaFinestra = Integer.parseInt(resolucionSeleccionada.split("x")[0])
-            , alturaFinestra = Integer.parseInt(resolucionSeleccionada.split("x")[1]);
+    public static int ampladaFinestra = Integer.parseInt(resolucionSeleccionada.split("x")[0]),
+            alturaFinestra = Integer.parseInt(resolucionSeleccionada.split("x")[1]);
     /**
      * Indica la ruta del fons de pantalla
      */
     public static String rutaFons = "src/resources/images/fons_1_pingpong.png";
+
+
 
     /**
      * Compté les paraules del menú del joc
@@ -134,13 +133,21 @@ public class Variables {
     }
 
     public static class Accions {
+
         public static Runnable continuarPartida = new Runnable() {
+
+            private JComponent panellJoc = null;
+
+            public void continuarPartida(JComponent panellJoc) {
+                this.panellJoc = panellJoc;
+            }
+
             @Override
             public void run() {
                 PanellJoc.pausa = false; // Quitar la pausa
                 Temporitzador.iniciarTemporitzador();
                 // Reanudar el temporizador
-                JFrame frameActual = (JFrame) SwingUtilities.getWindowAncestor(null);
+                JFrame frameActual = (JFrame) SwingUtilities.getWindowAncestor(panellJoc);
                 if (frameActual != null) {
                     frameActual.dispose(); // Cerrar el menú de pausa
                 }

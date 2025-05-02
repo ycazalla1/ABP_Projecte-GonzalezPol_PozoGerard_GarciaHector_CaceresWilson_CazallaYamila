@@ -44,10 +44,6 @@ public class Joc {
             try {
                 while (true) {
                     if (pJoc.getPausa()) {
-                /*
-                    Si el juego está en pausa, se llama al metodo menuGame() de la clase PanellJoc
-                    que es el que se encarga de mostrar el menú del juego
-                 */
 
 
                     } else {

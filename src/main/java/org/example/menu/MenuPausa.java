@@ -1,38 +1,90 @@
 package org.example.menu;
 
+import org.example.Joc;
+import org.example.PanellJoc;
+import org.example.Temporitzador;
+import org.example.Variables;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+
+import static org.example.menu.PantallaConfiguracionJugadores.jugadors;
+import static org.example.menu.PantallaConfiguracionJugadores.nivell;
 
 public class MenuPausa extends JPanel {
+    private final Image fondo;
 
-    private Image fondo;
-
-    public MenuPausa() {
+    public MenuPausa(JFrame framePrincipal, Runnable reiniciarJuegoCallback, Runnable irAlMenuPrincipal) {
         ImageIcon bg = new ImageIcon("src/resources/images/fons_1_pingpong.png");
         fondo = bg.getImage();
 
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));  // Usamos BoxLayout para alinear los botones verticalmente
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(Color.BLACK);
 
         Font fuente = new Font("Verdana", Font.BOLD, 22);
         Color colorTexto = new Color(0, 255, 255);
         Color fondoBoton = new Color(0, 0, 128, 180);
 
+        // Espaciado superior
+        add(Box.createVerticalStrut(100));
+
         // Botón Reanudar
-        JButton btnReanudar = crearBoton("REANUDAR", fuente, this::reanudarJuego);
-        add(Box.createVerticalStrut(50)); // Espacio superior entre botones
+        JButton btnReanudar = crearBoton("REANUDAR", fuente, () -> {
+            PanellJoc.pausa = false;
+            Temporitzador.iniciarTemporitzador();
+            framePrincipal.getContentPane().remove(this);
+            framePrincipal.revalidate();
+            framePrincipal.repaint();
+        });
         add(btnReanudar);
+        add(Box.createVerticalStrut(30));
 
         // Botón Reiniciar
-        JButton btnReiniciar = crearBoton("REINICIAR", fuente, this::reiniciarJuego);
-        add(Box.createVerticalStrut(20)); // Espacio entre botones
-        add(btnReiniciar);
+        JButton btnReiniciar = crearBoton("REINICIAR", fuente, () -> {
+            try {
+                PanellJoc nouPanell = new PanellJoc(Variables.ampladaFinestra, Variables.alturaFinestra, jugadors, nivell);
 
-        // Botón Salir al Menú Principal
-        JButton btnSalir = crearBoton("SALIR AL MENÚ", fuente, this::salirAlMenu);
-        add(Box.createVerticalStrut(20)); // Espacio entre botones
+                // Eliminar el panell antic
+                framePrincipal.getContentPane().removeAll();
+
+                // Afegir el nou panell
+                framePrincipal.getContentPane().add(nouPanell);
+                framePrincipal.revalidate();
+                framePrincipal.repaint();
+
+                // Reactivar el joc
+                PanellJoc.pausa = false;
+                Temporitzador.iniciarTemporitzador();  // Si tens un mètode per reiniciar-lo
+
+                // Reiniciar el bucle del joc
+                new Thread(() -> {
+                    try {
+                        while (true) {
+                            if (!nouPanell.getPausa()) {
+                                nouPanell.move();
+                                nouPanell.repaint();
+                                nouPanell.augmentarNivell();
+                                Thread.sleep(10);
+                            }
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        add(btnReiniciar);
+        add(Box.createVerticalStrut(30));
+
+        // Botón Salir al Menú
+        JButton btnSalir = crearBoton("SALIR AL MENÚ", fuente, irAlMenuPrincipal);
         add(btnSalir);
     }
 
@@ -44,7 +96,13 @@ public class MenuPausa extends JPanel {
         boton.setBorderPainted(false);
         boton.setOpaque(true);
         boton.setBackground(new Color(0, 0, 128, 180));
-        boton.addActionListener(e -> accion.run());
+        boton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        boton.addActionListener(e -> {
+            if (accion != null) {
+                accion.run();
+            }
+        });
 
         boton.addMouseListener(new MouseAdapter() {
             @Override
@@ -60,26 +118,21 @@ public class MenuPausa extends JPanel {
             }
         });
 
-        boton.setAlignmentX(Component.CENTER_ALIGNMENT);  // Centrar el botón en el JPanel
         return boton;
     }
 
-    // Acción de reanudar el juego
-    private void reanudarJuego() {
-        System.out.println("Juego reanudado.");
-        // Aquí va la lógica para reanudar el juego
-    }
+    // Método para mostrar el menú de pausa
+    public static void mostrarMenuPausa(JFrame framePrincipal, Runnable reiniciarJuego, Runnable irAlMenuPrincipal) {
+        MenuPausa menuPausa = new MenuPausa(framePrincipal, reiniciarJuego, irAlMenuPrincipal);
 
-    // Acción de reiniciar el juego
-    private void reiniciarJuego() {
-        System.out.println("Juego reiniciado.");
-        // Aquí va la lógica para reiniciar el juego
-    }
+        // Configurar el menú de pausa
+        menuPausa.setBounds(0, 0, framePrincipal.getWidth(), framePrincipal.getHeight());
+        menuPausa.setOpaque(false);
 
-    // Acción de salir al menú
-    private void salirAlMenu() {
-        System.out.println("Saliendo al menú.");
-        // Aquí va la lógica para salir al menú principal
+        // Agregar el menú al frame principal
+        framePrincipal.getContentPane().add(menuPausa, 0);
+        framePrincipal.revalidate();
+        framePrincipal.repaint();
     }
 
     @Override

@@ -12,19 +12,25 @@ import java.io.IOException;
 import static org.example.Variables.*;
 
 public class Main {
-        public static void main(String[] args) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
 
-            try {
-                Sound.carregarSo("src/resources/sounds/Playa_De_Retro_Tenis.mp3");
-                Sound.reproduirSo();
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+
+        public static void main(String[] args) {
+
+
 
 
             JFrame f = new JFrame("Retro Tenis");
             MenuPrincipal menu = new MenuPrincipal();
 
+            //Yamila!! Ejecuto el codigo haz una captura al juego para poner
+            // lo en la documentacion de programacion de las clases
+            // Vale
+            try {
+                Sound.carregarSo("src/resources/sounds/Tenis_En_La_Playa.wav");
+                Sound.reproduirSo();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
 
             f.setSize(ampladaFinestra, alturaFinestra);
             f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -31,19 +31,27 @@ public class Temporitzador {
      * Inicia el temporitzador
      */
     public static void iniciarTemporitzador() {
-        if (timer == null) { // Solo crea un nuevo Timer si no existe
-            timer = new Timer();
-            TimerTask tarea = new TimerTask() {
-                @Override
-                public void run() {
-                    if (!PanellJoc.pausa) {
-                        milisegons++;
-                    }
-                }
-            };
-            timer.scheduleAtFixedRate(tarea, 0, 1);
+        // Atura el timer actual si existeix
+        if (timer != null) {
+            timer.cancel();
         }
+
+        // Reinicia el comptador
+        milisegons = 0;
+
+        // Crea un nou timer i torna a iniciar
+        timer = new Timer();
+        TimerTask tarea = new TimerTask() {
+            @Override
+            public void run() {
+                if (!PanellJoc.pausa) {
+                    milisegons++;
+                }
+            }
+        };
+        timer.scheduleAtFixedRate(tarea, 0, 1);
     }
+
 
     public static void aturarTemporitzador() {
         if (timer != null) {

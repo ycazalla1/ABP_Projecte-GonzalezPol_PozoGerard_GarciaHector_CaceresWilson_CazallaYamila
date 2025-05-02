@@ -3,6 +3,8 @@ import org.example.Jugador;
 import org.example.Variables;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe Acces
@@ -28,6 +30,7 @@ public class Acces {
      * URL de la base de dades
      */
     private static final String URL = "jdbc:mysql://localhost:3306/retro_tenis";
+    private static final int RANQUING_JUGADORS_MAXIMS = 10;
 
     /**
      * Afegeix els jugadors a la BBDD
@@ -139,6 +142,36 @@ public class Acces {
             System.out.println(e.toString());
         }
         return traduccio;
+
+    }
+
+    public static ArrayList<Jugador> mostrarRanking() {
+
+        ArrayList<Jugador> mejoresJugadores = new ArrayList<>();
+
+        try {
+            Connection conexio = DriverManager.getConnection(URL, NOM, CONTRASENYA);
+
+            Statement st = conexio.createStatement();
+
+
+            String consulta = "SELECT nom_usuari, puntuacio FROM usuaris ORDER BY puntuacio DESC";
+            ResultSet rs = st.executeQuery(consulta);
+            int i = 0;
+            while (rs.next() && i < RANQUING_JUGADORS_MAXIMS) {
+                String nombre = rs.getString("nom_usuari");
+                int puntuacion = rs.getInt("puntuacio");
+
+                // Crear un objeto Jugador y agregarlo a la lista
+                Jugador jugador = new Jugador(nombre, puntuacion);
+                mejoresJugadores.add(jugador);
+                i++;
+            }
+        } catch(SQLException e) {
+            System.out.println(e.toString());
+        }
+
+        return mejoresJugadores;
 
     }
 

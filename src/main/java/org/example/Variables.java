@@ -5,8 +5,8 @@ import org.example.menu.MenuPrincipal;
 import javax.swing.*;
 import java.io.IOException;
 
-import static org.example.menu.PantallaConfiguracionJugadores.jugadors;
-import static org.example.menu.PantallaConfiguracionJugadores.nivell;
+import static org.example.menu.MenuConfiguracionJugadores.jugadors;
+import static org.example.menu.MenuConfiguracionJugadores.nivell;
 
 /**
  * Classe Variables
@@ -76,15 +76,15 @@ public class Variables {
         /**
          * El botó de jugar
          */
-        public static String mpJugar = "mpJugar";
+        public static String mpJugar = "mprJugar";
         /**
          * El botó d'opcions
          */
-        public static String mpOpcions = "mpOpcions";
+        public static String mpOpcions = "mprOpcions";
         /**
          * El botó de sortir
          */
-        public static String mpSortir = "mpSortir";
+        public static String mpSortir = "mprSortir";
 
         // Pantalla de configuració
         /**
@@ -129,7 +129,11 @@ public class Variables {
          * El text del volum
          */
         public static String moVolum = "moVolum";
+        public static String moContinuar = "moContinuar";
 
+        public static String mpaTornarMenu = "mpaTornarMenu";
+
+        public static String mgTornarMenu = "mgTornarMenu";
     }
 
     public static class Accions {

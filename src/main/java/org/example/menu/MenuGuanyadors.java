@@ -1,61 +1,86 @@
 package org.example.menu;
 
+import org.example.Jugador;
+import org.example.PanellJoc;
+import org.example.Temporitzador;
+import org.example.Variables;
+import org.example.connector.Acces;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.List;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class MenuGuanyadors extends JPanel {
-    Image background;
 
-    public MenuGuanyadors(List<String> jugadores, Runnable onVolverAlMenu) {
-        ImageIcon obj = new ImageIcon("src/resources/images/RetroTenis_background.png");
-        background = obj.getImage();
+    private Image fondo;
 
-        setLayout(new BorderLayout());
+    public MenuGuanyadors() {
+        // Cargar fondo
+        ImageIcon iconoFondo = new ImageIcon("src/resources/images/fons_1_pingpong.png");
+        fondo = iconoFondo.getImage();
 
-        Font fuenteTitulo = new Font("Verdana", Font.BOLD, 48);
-        Font fuenteJugadores = new Font("Verdana", Font.BOLD, 26);
-        Color colorTexto = new Color(255, 0, 0); // Rojo para dramatismo de "Game Over"
+        setLayout(null);
+        Font fuente = new Font("Verdana", Font.BOLD, 20);
+        Color colorTexto = Color.CYAN;
 
-        JLabel lblGameOver = new JLabel("GAME OVER");
-        lblGameOver.setFont(fuenteTitulo);
-        lblGameOver.setForeground(colorTexto);
-        lblGameOver.setHorizontalAlignment(SwingConstants.CENTER);
-        lblGameOver.setBorder(BorderFactory.createEmptyBorder(40, 10, 20, 10));
+        // Título
+        JLabel lblTitulo = new JLabel(Acces.carregarIdioma("rankingTitol"));  // Asume que tienes una clave "rankingTitol"
+        lblTitulo.setFont(new Font("Verdana", Font.BOLD, 26));
+        lblTitulo.setForeground(colorTexto);
+        lblTitulo.setBounds(300, 30, 500, 40);
+        add(lblTitulo);
 
-        JPanel panelJugadores = new JPanel();
-        panelJugadores.setOpaque(false);
-        panelJugadores.setLayout(new BoxLayout(panelJugadores, BoxLayout.Y_AXIS));
+        ArrayList<Jugador> jugadors = Acces.mostrarRanking();
 
-        for (String jugador : jugadores) {
-            JLabel lblJugador = new JLabel(jugador, SwingConstants.CENTER);
-            lblJugador.setFont(fuenteJugadores);
-            lblJugador.setForeground(Color.WHITE);
-            lblJugador.setAlignmentX(Component.CENTER_ALIGNMENT);
-            panelJugadores.add(lblJugador);
+        // Tabla con los jugadores
+        String[] columnes = {"Nom Usuari", "Puntuació"};
+        DefaultTableModel model = new DefaultTableModel(columnes, 0);
+        for (Jugador jugador : jugadors) {
+            Object[] fila = {jugador.getNom(), jugador.getPunts()};
+            model.addRow(fila);
         }
+        JTable tabla = new JTable(model);
+        tabla.setFont(fuente);
+        tabla.setRowHeight(30);
+        JScrollPane scroll = new JScrollPane(tabla);
+        scroll.setBounds(200, 100, 500, 200);
+        add(scroll);
 
-        JButton btnVolver = new JButton("Volver al menú");
-        btnVolver.setFont(new Font("Verdana", Font.BOLD, 24));
-        btnVolver.setForeground(Color.WHITE);
-        btnVolver.setBackground(new Color(128, 0, 0, 200));
+        // Botón volver
+        JButton btnVolver = new JButton(Acces.carregarIdioma("tornarMenu"));
+        btnVolver.setFont(new Font("Verdana", Font.BOLD, 22));
+        btnVolver.setForeground(new Color(0, 255, 255));
         btnVolver.setFocusPainted(false);
         btnVolver.setBorderPainted(false);
-        btnVolver.setPreferredSize(new Dimension(260, 50));
-        btnVolver.addActionListener(e -> onVolverAlMenu.run());
+        btnVolver.setOpaque(true);
+        btnVolver.setBackground(new Color(0, 0, 128, 180));
+        //btnVolver.getBounds(amplada);
 
-        JPanel panelInferior = new JPanel();
-        panelInferior.setOpaque(false);
-        panelInferior.add(btnVolver);
+// Acción del botón
+        btnVolver.addActionListener(e -> {
+            JFrame frameActual = (JFrame) SwingUtilities.getWindowAncestor(this);
+            frameActual.setContentPane(new MenuPrincipal());
+            frameActual.revalidate();
+        });
 
-        add(lblGameOver, BorderLayout.NORTH);
-        add(panelJugadores, BorderLayout.CENTER);
-        add(panelInferior, BorderLayout.SOUTH);
+        // Cargar datos de la base de datos
+
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
+        g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
+    }
+
+    public void mostrar() {
+        JFrame frame = new JFrame(Acces.carregarIdioma("rankingTitol"));
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(Variables.ampladaFinestra, Variables.alturaFinestra);
+        frame.setLocationRelativeTo(null);
+        frame.setContentPane(this);
+        frame.setVisible(true);
     }
 }

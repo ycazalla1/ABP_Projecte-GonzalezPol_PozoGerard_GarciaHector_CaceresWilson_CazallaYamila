@@ -8,8 +8,6 @@ import java.awt.event.ActionListener;
 
 import static org.example.Variables.Paraules.*;
 
-import static org.example.Variables.*;
-
 public class MenuPrincipal extends JPanel {
     Image picture;
 
@@ -24,7 +22,7 @@ public class MenuPrincipal extends JPanel {
         // Crear los botones
         JButton btnJugar = crearBoton(Acces.carregarIdioma(mpJugar), fuente, e -> {
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            topFrame.setContentPane(new PantallaConfiguracionJugadores(
+            topFrame.setContentPane(new MenuConfiguracionJugadores(
                     () -> {
                         topFrame.setContentPane(new MenuPrincipal());
                         topFrame.revalidate();

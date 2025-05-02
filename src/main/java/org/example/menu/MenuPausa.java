@@ -1,6 +1,5 @@
 package org.example.menu;
 
-import org.example.Joc;
 import org.example.PanellJoc;
 import org.example.Temporitzador;
 import org.example.Variables;
@@ -11,8 +10,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
-import static org.example.menu.PantallaConfiguracionJugadores.jugadors;
-import static org.example.menu.PantallaConfiguracionJugadores.nivell;
+import static org.example.menu.MenuConfiguracionJugadores.jugadors;
+import static org.example.menu.MenuConfiguracionJugadores.nivell;
 
 public class MenuPausa extends JPanel {
     private final Image fondo;
@@ -118,7 +117,7 @@ public class MenuPausa extends JPanel {
         add(btnSortir);
     }
 
-    private JButton crearBoton(String texto, Font fuente, Runnable accion) {
+    public JButton crearBoton(String texto, Font fuente, Runnable accion) {
         JButton boton = new JButton(texto);
         boton.setFont(fuente);
         boton.setForeground(new Color(0, 255, 255));

@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.connector.Acces;
+import org.example.menu.MenuGuanyadors;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,16 +63,22 @@ public class Bola {
 
         // Si la bola surt per l'esquerra
         if (x <= Variables.MARGES) {
+            PanellJoc.pausa = true;
             panellJoc.j2.setPunts(Temporitzador.getMilisegons());
             Acces.modificarPuntuacio(panellJoc.j2);
-            JOptionPane.showMessageDialog(null,"El jugador 2 ha guanyat", "Jugador 2", JOptionPane.INFORMATION_MESSAGE);
+            MenuGuanyadors menuGuanyadors = new MenuGuanyadors();
+            menuGuanyadors.mostrar();
+            SwingUtilities.getWindowAncestor(panellJoc).dispose(); // Cierra la ventana
         }
 
         // Si la bola surt per la dreta
         if (x >= Variables.ampladaFinestra - (Variables.MARGES*2)) {
+            PanellJoc.pausa = true;
             panellJoc.j1.setPunts(Temporitzador.getMilisegons());
             Acces.modificarPuntuacio(panellJoc.j1);
-            JOptionPane.showMessageDialog(null,"El jugador 1 ha guanyat", "Jugador 1", JOptionPane.INFORMATION_MESSAGE);
+            MenuGuanyadors menuGuanyadors = new MenuGuanyadors();
+            menuGuanyadors.mostrar();
+            SwingUtilities.getWindowAncestor(panellJoc).dispose(); // Cierra la ventana
         }
 
         // Rebote en los bordes superior e inferior
@@ -92,7 +99,7 @@ public class Bola {
             x = panellJoc.r2.getTotalX() - MIDA_BOLA;
         }
 
-        // Collisions amb obstacles
+        // Col·lisions amb obstacles
         // Cuando toca los obstáculos, la bola se ralla y ya no se reincia cuando toca las paredes
         for (int i = 0; i < panellJoc.obstacles.size(); i++) {
             if (collision(panellJoc.obstacles.get(i))) {

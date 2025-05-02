@@ -1,13 +1,35 @@
 package org.example;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 
+/**
+ * Classe Joc
+ *
+ * Controla el joc
+ *
+ * @author Grup-1
+ */
 public class Joc {
+    /**
+     * Atribut per tenir la finestra del joc
+     */
     public FinestraJoc fjoc;
+    /**
+     * Atribut per tenir el panell del joc
+     */
     public PanellJoc pJoc;
 
+    /**
+     * Constructor de la classe Joc
+     *
+     * Demana un array amb els noms dels jugadors i el nivell de dificultat del joc
+     *
+     * Si el joc es pausa, es mostra una finestra de pausa, el temps deixa de comptar i la bola deixa de moure's
+     * Si el joc no es pausa, tant la bola, com les raquetes com el temps es mouen i fem que el thread del joc descanis 10 milisegons
+     *
+     * @param nomsJugadors Array amb els noms dels jugadors
+     * @param nivell       Nivell de dificultat del joc
+     */
     public Joc(String[] nomsJugadors, String nivell) throws IOException, InterruptedException {
 
         /**

@@ -1,8 +1,15 @@
 package org.example.menu;
+
+import org.example.Sound;
+import org.example.connector.Acces;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class MenuOpciones extends JPanel{
+import static org.example.Variables.*;
+import static org.example.Variables.Paraules.*;
+
+public class MenuOpciones extends JPanel {
     private JComboBox<String> comboIdiomas;
     private JComboBox<String> comboResolucion;
     private JSlider sliderVolumen;
@@ -30,7 +37,7 @@ public class MenuOpciones extends JPanel{
         int centroX = 400;
 
         // Idioma
-        JLabel lblIdioma = crearLabel("Selecciona idioma:", fuente);
+        JLabel lblIdioma = crearLabel(Acces.carregarIdioma(moIdioma), fuente);
         lblIdioma.setBounds(centroX, 100, 300, 40);
         add(lblIdioma);
 
@@ -42,7 +49,7 @@ public class MenuOpciones extends JPanel{
         add(comboIdiomas);
 
         // Resolución
-        JLabel lblResolucion = crearLabel("Selecciona resolución:", fuente);
+        JLabel lblResolucion = crearLabel(Acces.carregarIdioma(moResolucio), fuente);
         lblResolucion.setBounds(centroX, 230, 350, 40);
         add(lblResolucion);
 
@@ -55,10 +62,10 @@ public class MenuOpciones extends JPanel{
 
         // Panel para Volumen
         JPanel panelVolumen = new JPanel(null);
-        panelVolumen.setBounds(centroX, 360, 300, 120);
+        panelVolumen.setBounds(centroX, 370, 300, 120);
         panelVolumen.setBackground(fondoBoton);
 
-        JLabel lblVolumen = new JLabel("Volumen:");
+        JLabel lblVolumen = new JLabel(Acces.carregarIdioma(moVolum));
         lblVolumen.setFont(fuente);
         lblVolumen.setBounds(0, 0, 300, 40);
         lblVolumen.setHorizontalAlignment(SwingConstants.CENTER);
@@ -72,13 +79,20 @@ public class MenuOpciones extends JPanel{
         sliderVolumen.setPaintTicks(true);
         sliderVolumen.setPaintLabels(true);
         sliderVolumen.setForeground(colorTexto);
+
+        // ✅ Volumen funcional
+        sliderVolumen.addChangeListener(e -> {
+            int valor = sliderVolumen.getValue();
+            Sound.setVolume(valor);
+        });
+
         panelVolumen.add(sliderVolumen);
         add(panelVolumen);
 
-        // Botón único para guardar todo
-        JButton btnGuardarTodo = crearBoton("GUARDAR OPCIONES", fuente, () -> {
-            String idiomaSeleccionado = (String) comboIdiomas.getSelectedItem();
-            String resolucionSeleccionada = (String) comboResolucion.getSelectedItem();
+        // Botón GUARDAR (abajo derecha)
+        JButton btnGuardarTodo = crearBoton(Acces.carregarIdioma(moGuardar), fuente, () -> {
+            idiomaSeleccionado = (String) comboIdiomas.getSelectedItem();
+            resolucionSeleccionada = (String) comboResolucion.getSelectedItem();
             int volumen = sliderVolumen.getValue();
 
             JOptionPane.showMessageDialog(this,
@@ -86,7 +100,7 @@ public class MenuOpciones extends JPanel{
                             "\nResolución: " + resolucionSeleccionada +
                             "\nVolumen: " + volumen);
         });
-        btnGuardarTodo.setBounds(850, 550, 300, 50); // abajo a la derecha
+        btnGuardarTodo.setBounds(950, 650, 280, 50);
         add(btnGuardarTodo);
     }
 

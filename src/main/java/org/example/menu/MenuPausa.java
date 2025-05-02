@@ -1,40 +1,38 @@
 package org.example.menu;
 
-import org.example.PanellJoc;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MenuPausa extends JPanel {
 
     private Image fondo;
 
-    public MenuPausa(Runnable reanudarJuego, Runnable reiniciarJuego, Runnable salirAlMenu) {
+    public MenuPausa() {
         ImageIcon bg = new ImageIcon("src/resources/images/fons_1_pingpong.png");
         fondo = bg.getImage();
 
-        setLayout(null);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));  // Usamos BoxLayout para alinear los botones verticalmente
+        setBackground(Color.BLACK);
+
         Font fuente = new Font("Verdana", Font.BOLD, 22);
         Color colorTexto = new Color(0, 255, 255);
         Color fondoBoton = new Color(0, 0, 128, 180);
 
-        int centroX = 400;
-
         // Botón Reanudar
-        JButton btnReanudar = crearBoton("REANUDAR", fuente, reanudarJuego);
-        btnReanudar.setBounds(centroX, 150, 300, 60);
+        JButton btnReanudar = crearBoton("REANUDAR", fuente, this::reanudarJuego);
+        add(Box.createVerticalStrut(50)); // Espacio superior entre botones
         add(btnReanudar);
 
         // Botón Reiniciar
-        JButton btnReiniciar = crearBoton("REINICIAR", fuente, reiniciarJuego);
-        btnReiniciar.setBounds(centroX, 240, 300, 60);
+        JButton btnReiniciar = crearBoton("REINICIAR", fuente, this::reiniciarJuego);
+        add(Box.createVerticalStrut(20)); // Espacio entre botones
         add(btnReiniciar);
 
         // Botón Salir al Menú Principal
-        JButton btnSalir = crearBoton("SALIR AL MENÚ", fuente, salirAlMenu);
-        btnSalir.setBounds(centroX, 330, 300, 60);
+        JButton btnSalir = crearBoton("SALIR AL MENÚ", fuente, this::salirAlMenu);
+        add(Box.createVerticalStrut(20)); // Espacio entre botones
         add(btnSalir);
     }
 
@@ -48,21 +46,40 @@ public class MenuPausa extends JPanel {
         boton.setBackground(new Color(0, 0, 128, 180));
         boton.addActionListener(e -> accion.run());
 
-        boton.addMouseListener(new java.awt.event.MouseAdapter() {
+        boton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+            public void mouseEntered(MouseEvent evt) {
                 boton.setForeground(new Color(255, 255, 0));
                 repaint();
             }
 
             @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+            public void mouseExited(MouseEvent evt) {
                 boton.setForeground(new Color(0, 255, 255));
                 repaint();
             }
         });
 
+        boton.setAlignmentX(Component.CENTER_ALIGNMENT);  // Centrar el botón en el JPanel
         return boton;
+    }
+
+    // Acción de reanudar el juego
+    private void reanudarJuego() {
+        System.out.println("Juego reanudado.");
+        // Aquí va la lógica para reanudar el juego
+    }
+
+    // Acción de reiniciar el juego
+    private void reiniciarJuego() {
+        System.out.println("Juego reiniciado.");
+        // Aquí va la lógica para reiniciar el juego
+    }
+
+    // Acción de salir al menú
+    private void salirAlMenu() {
+        System.out.println("Saliendo al menú.");
+        // Aquí va la lógica para salir al menú principal
     }
 
     @Override

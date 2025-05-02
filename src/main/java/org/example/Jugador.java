@@ -1,7 +1,5 @@
 package org.example;
 
-import jakarta.persistence.*;
-
 /**
  * Classe que permet crear un jugador.
  * <p>
@@ -41,6 +39,11 @@ public class Jugador {
         return punts;
     }
 
+    /**
+     * Torna els punts que té el jugador
+     *
+     * @param punts
+     */
     public void setPunts(int punts) {
         this.punts = punts;
     }

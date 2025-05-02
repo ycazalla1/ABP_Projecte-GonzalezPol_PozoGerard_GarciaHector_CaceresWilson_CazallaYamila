@@ -4,6 +4,16 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Classe Obstacles
+ *
+ * Classe que representa els obstacles del joc, la seva posició, velocitat, amplada i alçada
+ *
+ * Permet crear de forma aleatoria en posicions aleatorias una quantitat x de obstacles
+ * Permet que els obstacles es moguin sense parar d'adalt a abaix
+ *
+ * @author Grup-1
+ */
 public class Obstacles {
 
     /**
@@ -23,16 +33,14 @@ public class Obstacles {
      * Les coordenades del objecte dins del panell
      */
     private int x, y;
-    private int ya = 1;
-    private int posicioInicial;
-
     /**
-     * Constructor de la classe Obstacles
+     * La velocitat del obstacle
      */
-    public Obstacles() {
-        // Constructor de la classe Obstacles
-        // Aquí pots inicialitzar els atributs o fer altres operacions necessàries
-    }
+    private int ya = 1;
+    /**
+     * La posició inicial y del obstacle
+     */
+    private int posicioInicial;
 
     /**
      * Constructor de la classe Obstacles
@@ -46,10 +54,6 @@ public class Obstacles {
         this.posicioInicial = y;
     }
 
-    // TODO Quizás haya que adaptarlo para que se tenga que poner cuando llamas al
-    // método la cantidad de obstaculos que tiene, cambiar la condición del bucle
-    // (OBSTACLES_ALEATORIS) por el parametro de entrada que se ponga en el caso de
-    // tener que cambiarlo
     /**
      * Genera obstacles de forma aleatoria, deixa un espai determinat entre les
      * racquets i la generació dels obstacles, no poden sortir obstacles que
@@ -119,10 +123,20 @@ public class Obstacles {
         }
     }
 
+    /**
+     * Retorna la posició del obstacle
+     *
+     * @return Posició del obstacle
+     */
     public Rectangle getBounds() {
         return new Rectangle(x, y, AMPLADA_DEFECTE, ALTURA_DEFECTE);
     }
 
+    /**
+     * Mètode per pintar per el panell l'obstacle
+     *
+     * @param g Objecte Graphics per pintar
+     */
     public void paint(Graphics g) {
         g.setColor(Color.BLACK);
         g.fillRect(x, y, AMPLADA_DEFECTE, ALTURA_DEFECTE);

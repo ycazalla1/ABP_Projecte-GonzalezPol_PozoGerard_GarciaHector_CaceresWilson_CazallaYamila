@@ -1,8 +1,14 @@
 package org.example.menu;
 
+import org.example.connector.Acces;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+
+import static org.example.Variables.Paraules.*;
+
+import static org.example.Variables.*;
 
 public class MenuPrincipal extends JPanel {
     Image picture;
@@ -16,7 +22,7 @@ public class MenuPrincipal extends JPanel {
         Font fuente = new Font("Verdana", Font.BOLD, 28);
 
         // Crear los botones
-        JButton btnJugar = crearBoton("JUGAR", fuente, e -> {
+        JButton btnJugar = crearBoton(Acces.carregarIdioma(mpJugar), fuente, e -> {
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             topFrame.setContentPane(new PantallaConfiguracionJugadores(
                     () -> {
@@ -36,7 +42,7 @@ public class MenuPrincipal extends JPanel {
             topFrame.revalidate();
         });
 
-        JButton btnOpciones = crearBoton("OPCIONES", fuente, e -> {
+        JButton btnOpciones = crearBoton(Acces.carregarIdioma(mpOpcions), fuente, e -> {
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             topFrame.setContentPane(new MenuOpciones(() -> {
                 topFrame.setContentPane(new MenuPrincipal());
@@ -45,7 +51,7 @@ public class MenuPrincipal extends JPanel {
             topFrame.revalidate();
         });
 
-        JButton btnSalir = crearBoton("SALIR", fuente, e -> System.exit(0));
+        JButton btnSalir = crearBoton(Acces.carregarIdioma(mpSortir), fuente, e -> System.exit(0));
 
         // Crear un panel inferior para los botones y ponerlos en horizontal
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 30));

@@ -2,9 +2,18 @@ package org.example;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
+/**
+ * Classe Racquet
+ *
+ * Representa les racquets del joc
+ *
+ * Conté la mida, la posició i la velocitat de les pales
+ *
+ * @author Grup-1
+ */
 public class Racquet {
     /**
-     *Mida de la pala
+     * Mida de la pala
      */
     private final static int MIDA_AMPLADA = 30, MIDA_ALTURA = 150;
 
@@ -14,7 +23,7 @@ public class Racquet {
     private int x, y, ya = 0;
 
     /**
-     *Panell del joc
+     * Panell del joc
      */
     private PanellJoc panellJoc;
 
@@ -24,7 +33,7 @@ public class Racquet {
     private int palaJ1, palaJ2;
 
     /**
-     *Constructor buit
+     * Constructor buit
      */
     public Racquet() {
 
@@ -32,6 +41,7 @@ public class Racquet {
 
     /**
      * Constructor de la pala
+     *
      * @param x posicio x
      * @param y posicio y
      * @param panellJoc panell de joc
@@ -52,7 +62,7 @@ public class Racquet {
     }
 
     /**
-     *Retorna l'àrea de la pala
+     * Retorna l'àrea de la pala
      */
 
     public Rectangle getBounds() {
@@ -60,7 +70,7 @@ public class Racquet {
     }
 
     /**
-     *Coordenada X per col·lisions
+     * Coordenada X per col·lisions
      */
     public int getTotalX() {
         // EL 40 ES EL MARGEN MÁS EL MARGEN DE LA RACQUET CON EL RECTANGULO
@@ -106,6 +116,7 @@ public class Racquet {
 
     /**
      * Assigna costat de les pales segons punts
+     *
      * @param punts
      */
     public void setPala(int punts) {

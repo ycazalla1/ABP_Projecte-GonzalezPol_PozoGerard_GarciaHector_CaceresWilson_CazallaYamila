@@ -1,6 +1,8 @@
 package org.example;
 
 import org.example.connector.Acces;
+import org.example.menu.MenuPausa;
+import org.example.menu.PruebaPausaMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,44 +11,87 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import static org.example.Variables.*;
+import static org.example.Variables.Accions.*;
 
-
+/**
+ * Classe que representa el panell de joc
+ *
+ * Conté la bola, les racquets, obstacles i el temporitzador
+ *
+ * @author Grup-1
+ */
 @SuppressWarnings("serial")
 public class PanellJoc extends JPanel {
 
+    /**
+     * Mesura de la font
+     */
     private final int MIDA_FONT = 20;
+    /**
+     * La quantiat maxima d'obstacles que es poden generar
+     */
     private static final int LIMIT_OBSTACLES = 10;
+    /**
+     * Medeix la quantitat de temps que es porta jugant la partida
+     */
     private int tempsNivell = Variables.TEMPS_NIVELL;
-    //private Sound so;
-
+    /**
+     * L'imatge de fons del joc
+     */
     Image fons;
-
     /**
      * Temporitzador del joc
      */
     Temporitzador t = new Temporitzador();
-
+    /**
+     * La bola del joc
+     */
     Bola b;
+    /**
+     * La racquet del jugador 1, la que està a la esquerra
+     */
     Racquet r1 = new Racquet(MARGES + MARGE_RACQUET_RECTANGLE, MARGES + MARGE_RACQUET_RECTANGLE, this);
+    /**
+     * La racquet del jugador 2, la que està a la dreta
+     */
     Racquet r2 = new Racquet(ampladaFinestra - (MARGES + MIDA_AMPLE_RACQUET + MARGE_RACQUET_RECTANGLE),
             MARGES + MARGE_RACQUET_RECTANGLE, this);
-
+    /**
+     * El jugador 1
+     */
     Jugador j1;
+    /**
+     * El jugador 2
+     */
     Jugador j2;
-
+    /**
+     * ArrayList amb tots els obstacles generats
+     */
     ArrayList<Obstacles> obstacles = new ArrayList<>();
-
+    /**
+     * Les mesures del rectangle que bordeixen el panell i donen un marge a la partida
+     */
     int posRCentral = MARGES, ampleRCentral = ampladaFinestra - (MARGES*2),
     altRCentral = alturaFinestra - (MARGES*2);
-
+    /**
+     * Emmagatzema si el joc està pausat o no
+     */
     public static boolean pausa = false;
-
+    /**
+     * El nivell de dificultat del joc
+     */
     public int nivell;
-
+    /**
+     * El connector amb la BBDD
+     */
     Acces ac = new Acces();
 
     /**
      * Constructor del panell de joc
+     *
+     * Crea la bola, les racquets i tot el que fa falta al joc
+     *
+     * Si el nivell es superior a 2, es generen obstacles directament
      *
      * @param amplada Amplada del panell
      * @param altura  Altura del panell
@@ -89,7 +134,8 @@ public class PanellJoc extends JPanel {
                     } else {
                         pausa = false;
                     }
-                    // Aquí tiene que ir el menú de pausa
+                    MenuPausa m = new MenuPausa();
+                    m.setVisible(true);
                 }
             }
 
@@ -104,24 +150,31 @@ public class PanellJoc extends JPanel {
         Temporitzador.iniciarTemporitzador();
     }
 
+    /**
+     * Fa la mesura del panell
+     *
+     * @param amplada Amplada del panell
+     * @param altura Alçada del panell
+     */
     public void setPanelSize(int amplada, int altura) {
         Dimension dimension = new Dimension(amplada, altura);
         //Metodo para asignar la dimensión creada antes como preferida
         setPreferredSize(dimension);
     }
-
+    /**
+     * Permet que la bola i les racquet es puguin moure
+     */
     public void move() {
-        //El método move() de la clase Bola es el que se encarga de mover la bola
         b.bolaMoviment();
-        //Llamamos al método de la clase Racquet para que se mueva
         r1.raqcquetLimitBores();
         r2.raqcquetLimitBores();
     }
 
-    public int getNivell() {
-        return nivell;
-    }
-
+    /**
+     * Mostra un missatge de game over
+     *
+     * @param j Jugador
+     */
     public void gameOver(Jugador j) {
         JOptionPane.showMessageDialog(this, "El guanyador és:" + j.getNom() + "\n"
                         + "Punts: " + j.getPunts(), "Game Over", JOptionPane.YES_NO_OPTION);
@@ -129,14 +182,29 @@ public class PanellJoc extends JPanel {
         System.exit(ABORT);
     }
 
+    /**
+     * Posa en pausa o renuda el joc
+     *
+     * @param pausa true/false
+     */
     public void setPausa(boolean pausa) {
         this.pausa = pausa;
     }
 
+    /**
+     * Torna si el joc està pausat o no
+     *
+     * @return true/false
+     */
     public boolean getPausa() {
         return pausa;
     }
 
+    /**
+     * Augmenta el nivell del joc, segons el temps que ha passat
+     *
+     * Si el nivell es superior a un límit es generen obstacles
+     */
     public void augmentarNivell() {
         if (Temporitzador.getMilisegons() > tempsNivell) {
             nivell++;
@@ -148,6 +216,11 @@ public class PanellJoc extends JPanel {
         }
     }
 
+    /**
+     * Pinta tots els components del joc en el panell
+     *
+     * @param g Objecte Graphics
+     */
     public void paintComponent(Graphics g) {
 
         /**

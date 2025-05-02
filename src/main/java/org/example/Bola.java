@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import static org.example.Variables.INCREMENT_VELOCITAT_BOLA;
+import static org.example.Variables.*;
 
 /**
  * Classe que representa la bola del joc
@@ -19,10 +20,6 @@ import static org.example.Variables.INCREMENT_VELOCITAT_BOLA;
 public class Bola {
 
     /**
-     * Els pixels que ocupa la bola rectangularment per la hitbox
-     */
-    private final int MIDA_BOLA = 30;
-    /**
      * El panell del joc
      */
     private PanellJoc panellJoc;
@@ -33,7 +30,7 @@ public class Bola {
     /**
      * Coordenades ón apareix la bola
      */
-    float x = Variables.ampladaFinestra /2, y = Variables.alturaFinestra /2;
+    float x = ampladaFinestra /2, y = alturaFinestra /2;
     /**
      * Direcció que segueix la bola
      */
@@ -152,7 +149,9 @@ public class Bola {
         y = Variables.alturaFinestra / 2;
     }
 
-
+    /**
+     * Incrementa la velocitat de la bola
+     */
     public void incrementarVelocitatBola() {
         velocitatBola *= INCREMENT_VELOCITAT_BOLA;
         xa = (xa > 0) ? velocitatBola : -velocitatBola;

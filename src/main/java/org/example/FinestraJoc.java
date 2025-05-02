@@ -2,15 +2,25 @@ package org.example;
 
 import javax.swing.JFrame;
 
+/**
+ * Classe FinestraJoc
+ *
+ * Crea la finestra del joc
+ *
+ * @author Grup-1
+ */
 public class FinestraJoc {
+    /**
+     * Assigna un panell al joc
+     */
     private JFrame jf;
-    private final int PUNTUACIO_WINNER = 5;
 
-    Racquet racquet = new Racquet();
-
-
+    /**
+     * Construeix la finestra del joc i li assigna les propietats
+     *
+     * @param pJoc Panell del joc
+     */
     public FinestraJoc(PanellJoc pJoc) {
-
         jf = new JFrame();
         //Finalizar el programa cuando se cierre la ventana
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,8 +40,6 @@ public class FinestraJoc {
          * puede pasar que cuando se redimensione la ventana no se vea el juego.
          */
         jf.setVisible(true);
-
-
     }
 
 }

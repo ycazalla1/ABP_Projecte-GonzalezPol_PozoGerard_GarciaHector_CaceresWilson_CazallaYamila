@@ -1,33 +1,15 @@
-CREATE DATABASE tennis;
-use tennis;
-
+CREATE DATABASE IF NOT EXISTS retrotenis;
+USE retrotenis;
 CREATE TABLE jugadors (
     id_jugador int auto_increment PRIMARY KEY,
     nom varchar(50),
     punts int
 );
 
-
-
-
-CREATE DATABASE IF NOT EXISTS retrotenis;
-USE retrotenis;
-
 create table traduccions (
 	clau varchar(50),
-    idioma varchar (10),
-    text TEXT,
-    primary key (clau, idioma)
-);
-
-
-CREATE DATABASE IF NOT EXISTS retrotenis;
-USE retrotenis;
-
-create table traduccions (
-	clau varchar(50),
-    text_catala varchar (50),
-    text_castella varchar (50),
+    Català varchar (50),
+    Castellano varchar (50),
     text_angles varchar (50),
     primary key (clau)
 );

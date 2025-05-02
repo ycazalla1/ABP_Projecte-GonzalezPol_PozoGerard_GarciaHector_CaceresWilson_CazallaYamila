@@ -1,12 +1,42 @@
 package org.example.connector;
 import org.example.Jugador;
+import org.example.Variables;
+
 import java.sql.*;
 
+/**
+ * Classe Acces
+ *
+ * Funciona de connector entre el programa i la BBDD
+ *
+ * Afegeix jugadors a la BBDD només si no existeixen en la BBDD
+ * Modifica la puntuació del jugador si és superior a la que ja hi ha
+ * Carrega les traduccions de les paraules segons l'idioma seleccionat
+ *
+ * @author Grup-1
+ */
 public class Acces {
+    /**
+     * Nom d'usuari de la base de dades
+     */
     private static final String NOM = "root";
+    /**
+     * Contrasenya de la base de dades
+     */
     private static final String CONTRASENYA = "1234";
+    /**
+     * URL de la base de dades
+     */
     private static final String URL = "jdbc:mysql://localhost:3306/retro_tenis";
 
+    /**
+     * Afegeix els jugadors a la BBDD
+     *
+     * Si un jugador ja existeix en la BBDD no s'afageix
+     *
+     * @param j1 Jugador 1
+     * @param j2 Jugador 2
+     */
     public static void afegirInformacio(Jugador j1, Jugador j2) {
         try {
             Connection conexio = DriverManager.getConnection(URL, NOM, CONTRASENYA);
@@ -35,6 +65,12 @@ public class Acces {
         }
     }
 
+    /**
+     * Torna si un usuari ja existeix a la BBDD
+     *
+     * @param j Jugador
+     * @return true/false Si ja existeix o no
+     */
     public static boolean usuariRepetit(Jugador j) {
 
         try {
@@ -57,6 +93,11 @@ public class Acces {
         return false;
     }
 
+    /**
+     * Modifica la puntuació del jugador en la BBDD si es major a la que ja hi ha
+     *
+     * @param j Jugador
+     */
     public static void modificarPuntuacio(Jugador j) {
         try {
             Connection conexio = DriverManager.getConnection(URL, NOM, CONTRASENYA);
@@ -75,6 +116,30 @@ public class Acces {
         } catch(SQLException e) {
             System.out.println(e.toString());
         }
+    }
+
+    /**
+     * Rep una paraula i torna una traducció segons el que hi ha en la BBDD
+     *
+     * @param paraula Paraula a cercar en la BBDD
+     * @return Paraula traduïda de la BBDD
+     */
+    public static String carregarIdioma(String paraula){
+        String traduccio = "";
+        try {
+            Connection conexio = DriverManager.getConnection(URL, NOM, CONTRASENYA);
+
+            Statement st = conexio.createStatement();
+            String consulta = "SELECT " + Variables.idiomaSeleccionado + " FROM traduccions WHERE clau = '" + paraula + "'";
+            ResultSet rs = st.executeQuery(consulta);
+            if (rs.next()) {
+                traduccio = rs.getString(Variables.idiomaSeleccionado);
+            }
+        } catch(SQLException e) {
+            System.out.println(e.toString());
+        }
+        return traduccio;
+
     }
 
 }

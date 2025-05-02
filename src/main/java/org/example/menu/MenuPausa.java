@@ -79,13 +79,24 @@ public class MenuPausa extends JPanel {
                 throw new RuntimeException(e);
             }
         });
-
         add(btnReiniciar);
         add(Box.createVerticalStrut(30));
 
         // Botón Salir al Menú
-        JButton btnSalir = crearBoton("SALIR AL MENÚ", fuente, irAlMenuPrincipal);
-        add(btnSalir);
+        JButton btnSortir = crearBoton("SALIR AL MENÚ", fuente, () -> {
+            // Eliminar el panell antic
+            framePrincipal.getContentPane().removeAll();
+
+            // Afegir el nou panell
+            framePrincipal.getContentPane().add(new MenuPrincipal());
+            framePrincipal.revalidate();
+            framePrincipal.repaint();
+
+            // Reactivar el joc
+            PanellJoc.pausa = false;
+            Temporitzador.iniciarTemporitzador();  // Si tens un mètode per reiniciar-lo
+        });
+        add(btnSortir);
     }
 
     private JButton crearBoton(String texto, Font fuente, Runnable accion) {

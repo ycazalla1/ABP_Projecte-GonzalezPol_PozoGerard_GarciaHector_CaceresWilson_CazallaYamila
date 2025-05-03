@@ -51,12 +51,36 @@ public class MenuPrincipal extends JPanel {
 
         JButton btnSalir = crearBoton(Acces.carregarIdioma(mpSortir), fuente, e -> System.exit(0));
 
-        // Crear un panel inferior para los botones y ponerlos en horizontal
-        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 30));
+        // Crear el panel de botones
+        JPanel panelBotones = new JPanel() {
+            @Override
+            public Dimension getPreferredSize() {
+                int width = (int) (getParent().getWidth() * 0.8); // 80% del ancho de la ventana
+                int height = (int) (getParent().getHeight() * 0.2); // 20% de la altura de la ventana
+                return new Dimension(width, height);
+            }
+
+            @Override
+            public void doLayout() {
+                int buttonWidth = (int) (getWidth() * 0.3); // 30% del ancho del panel
+                int buttonHeight = (int) (getHeight() * 0.6); // 60% de la altura del panel
+                for (Component comp : getComponents()) {
+                    if (comp instanceof JButton) {
+                        comp.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+                    }
+                }
+                super.doLayout();
+            }
+        };
+        panelBotones.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         panelBotones.setOpaque(false); // Para que el fondo sea transparente
+        panelBotones.add(Box.createHorizontalStrut(20)); // Espaciado inicial
         panelBotones.add(btnJugar);
+        panelBotones.add(Box.createHorizontalStrut(20)); // Espaciado entre botones
         panelBotones.add(btnOpciones);
+        panelBotones.add(Box.createHorizontalStrut(20)); // Espaciado entre botones
         panelBotones.add(btnSalir);
+        panelBotones.add(Box.createHorizontalStrut(20)); // Espaciado final
 
         add(panelBotones, BorderLayout.SOUTH); // Colocar abajo del todo
     }

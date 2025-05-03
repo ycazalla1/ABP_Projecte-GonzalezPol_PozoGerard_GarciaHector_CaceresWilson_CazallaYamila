@@ -5,6 +5,8 @@ import org.example.connector.Acces;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import static org.example.Variables.*;
 import static org.example.Variables.Paraules.*;
@@ -20,7 +22,7 @@ public class MenuOpciones extends JPanel {
         ImageIcon bg = new ImageIcon("src/resources/images/fons_1_pingpong.png");
         fondo = bg.getImage();
 
-        setLayout(null);
+        setLayout(null); // Usar null layout para posicionar manualmente
         Font fuente = new Font("Verdana", Font.BOLD, 22);
         Color colorTexto = new Color(0, 255, 255);
         Color fondoBoton = new Color(0, 0, 128, 180);
@@ -28,83 +30,62 @@ public class MenuOpciones extends JPanel {
         // Botón "<"
         JButton btnAtras = new JButton("<");
         btnAtras.setFont(new Font("Verdana", Font.BOLD, 24));
-        btnAtras.setBounds(20, 20, 60, 40);
         btnAtras.setForeground(Color.CYAN);
         btnAtras.setBackground(fondoBoton);
         btnAtras.setFocusPainted(false);
         btnAtras.addActionListener(e -> volverAlMenu.run());
         add(btnAtras);
 
-        int centroX = 400;
-
         // Idioma
         JLabel lblIdioma = crearLabel(Acces.carregarIdioma(moIdioma), fuente);
-        lblIdioma.setBounds(centroX, 100, 300, 40);
         add(lblIdioma);
 
         comboIdiomas = new JComboBox<>(new String[]{"Català", "Castellano", "English"});
         comboIdiomas.setFont(fuente);
-        comboIdiomas.setBounds(centroX, 150, 300, 50);
         comboIdiomas.setBackground(fondoBoton);
         comboIdiomas.setForeground(colorTexto);
         add(comboIdiomas);
 
         // Resolución
         JLabel lblResolucion = crearLabel(Acces.carregarIdioma(moResolucio), fuente);
-        lblResolucion.setBounds(centroX, 230, 350, 40);
         add(lblResolucion);
 
         comboResolucion = new JComboBox<>(new String[]{"800x600", "1280x720", "1920x1080"});
         comboResolucion.setFont(fuente);
-        comboResolucion.setBounds(centroX, 280, 300, 50);
         comboResolucion.setBackground(fondoBoton);
         comboResolucion.setForeground(colorTexto);
         add(comboResolucion);
 
         // Panel para Volumen
         JPanel panelVolumen = new JPanel(null);
-        panelVolumen.setBounds(centroX, 370, 300, 120);
         panelVolumen.setBackground(fondoBoton);
 
         JLabel lblVolumen = new JLabel(Acces.carregarIdioma(moVolum));
         lblVolumen.setFont(fuente);
-        lblVolumen.setBounds(0, 0, 300, 40);
         lblVolumen.setHorizontalAlignment(SwingConstants.CENTER);
         lblVolumen.setForeground(colorTexto);
         panelVolumen.add(lblVolumen);
 
         sliderVolumen = new JSlider(0, 100, 50);
-        sliderVolumen.setBounds(0, 50, 300, 50);
         sliderVolumen.setOpaque(false);
         sliderVolumen.setMajorTickSpacing(25);
         sliderVolumen.setPaintTicks(true);
         sliderVolumen.setPaintLabels(true);
         sliderVolumen.setForeground(colorTexto);
-
-        // ✅ Volumen funcional
-        sliderVolumen.addChangeListener(e -> {
-            int valor = sliderVolumen.getValue();
-            Sound.setVolume(valor);
-        });
-
+        sliderVolumen.addChangeListener(e -> Sound.setVolume(sliderVolumen.getValue()));
         panelVolumen.add(sliderVolumen);
         add(panelVolumen);
 
-        // Botón GUARDAR (abajo derecha).
+        // Botón GUARDAR
         btnGuardarTodo = crearBoton(Acces.carregarIdioma(moGuardar), fuente, () -> {
+            // Guardar idioma seleccionado
             idiomaSeleccionado = (String) comboIdiomas.getSelectedItem();
+            Acces.carregarIdioma(idiomaSeleccionado); // Método para actualizar el idioma en tu sistema
+
+            // Guardar resolución seleccionada
             resolucionSeleccionada = (String) comboResolucion.getSelectedItem();
             ampladaFinestra = Integer.parseInt(resolucionSeleccionada.split("x")[0]);
             alturaFinestra = Integer.parseInt(resolucionSeleccionada.split("x")[1]);
-
-            int volumen = sliderVolumen.getValue();
-
-            // Cambiar idioma dinámicamente
-            lblIdioma.setText(Acces.carregarIdioma(moIdioma));
-            lblResolucion.setText(Acces.carregarIdioma(moResolucio));
-            lblVolumen.setText(Acces.carregarIdioma(moVolum));
-            btnGuardarTodo.setText(Acces.carregarIdioma(moGuardar));
-            btnAtras.setText(Acces.carregarIdioma(BOTO_TORNAR));
 
             JFrame framePrincipal = (JFrame) SwingUtilities.getWindowAncestor(this);
             if (framePrincipal != null) {
@@ -113,13 +94,43 @@ public class MenuOpciones extends JPanel {
                 framePrincipal.repaint();
             }
 
+            // Actualizar textos de los componentes
+            lblIdioma.setText(Acces.carregarIdioma(moIdioma));
+            lblResolucion.setText(Acces.carregarIdioma(moResolucio));
+            lblVolumen.setText(Acces.carregarIdioma(moVolum));
+            btnGuardarTodo.setText(Acces.carregarIdioma(moGuardar));
+
             JOptionPane.showMessageDialog(this,
-                    "Opciones guardadas:\nIdioma: " + idiomaSeleccionado +
-                            "\nResolución: " + resolucionSeleccionada +
-                            "\nVolumen: " + volumen);
+                    Acces.carregarIdioma("opciones_guardadas") + ":\n" +
+                            Acces.carregarIdioma("idioma") + ": " + idiomaSeleccionado + "\n" +
+                            Acces.carregarIdioma("resolucion") + ": " + resolucionSeleccionada + "\n" +
+                            Acces.carregarIdioma("volumen") + ": " + sliderVolumen.getValue());
         });
-        btnGuardarTodo.setBounds(950, 550, 280, 50);
         add(btnGuardarTodo);
+
+        // Listener para ajustar posiciones y tamaños dinámicamente
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                int ancho = getWidth();
+                int alto = getHeight();
+
+                btnAtras.setBounds(20, 20, ancho / 15, alto / 15);
+
+                int centroX = ancho / 2 - 150;
+                lblIdioma.setBounds(centroX, alto / 10, 300, 40);
+                comboIdiomas.setBounds(centroX, alto / 10 + 50, 300, 50);
+
+                lblResolucion.setBounds(centroX, alto / 4 + 30, 300, 40); // Incrementa la posición vertical
+                comboResolucion.setBounds(centroX, alto / 4 + 80, 300, 50); // Ajusta el espacio entre el JLabel y el JComboBox
+
+                panelVolumen.setBounds(centroX, alto / 2, 300, 120);
+                lblVolumen.setBounds(0, 0, 300, 40);
+                sliderVolumen.setBounds(0, 50, 300, 50);
+
+                btnGuardarTodo.setBounds(ancho - 320, alto - 100, 280, 50);
+            }
+        });
     }
 
     private JLabel crearLabel(String texto, Font fuente) {

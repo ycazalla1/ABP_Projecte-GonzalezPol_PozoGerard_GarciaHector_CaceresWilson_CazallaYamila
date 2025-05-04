@@ -6,6 +6,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.example.Variables.idiomaSeleccionado;
+
 /**
  * Classe Acces
  *
@@ -54,12 +56,12 @@ public class Acces {
 
             if (!usuariRepetit(j1)) {
                 consulta.executeUpdate("insert into usuaris (nom_usuari, puntuacio, idioma)" +
-                        "values ('" + jugador1 + "', " + puntsJ1 + ", 'Català')");
+                        "values ('" + jugador1 + "', " + puntsJ1 + ", '" + idiomaSeleccionado + "')");
             }
 
             if (!usuariRepetit(j2)) {
                 consulta.executeUpdate("insert into usuaris (nom_usuari, puntuacio, idioma)" +
-                        "values ('" + jugador2 + "', " + puntsJ2 + ", 'Català')");
+                        "values ('" + jugador2 + "', " + puntsJ2 + ", '" + idiomaSeleccionado + "')");
             }
             conexio.close();
         }

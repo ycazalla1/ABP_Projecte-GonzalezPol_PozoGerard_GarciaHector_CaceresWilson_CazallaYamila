@@ -9,8 +9,12 @@ import org.example.connector.Acces;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.sql.*;
 import java.util.ArrayList;
+
+import static org.example.Variables.Paraules.mgTornarMenu;
 
 public class MenuGuanyadors extends JPanel {
 
@@ -49,14 +53,23 @@ public class MenuGuanyadors extends JPanel {
         add(scroll);
 
         // Botón volver
-        JButton btnVolver = new JButton(Acces.carregarIdioma("tornarMenu"));
+        JButton btnVolver = new JButton(Acces.carregarIdioma(mgTornarMenu));
         btnVolver.setFont(new Font("Verdana", Font.BOLD, 22));
         btnVolver.setForeground(new Color(0, 255, 255));
         btnVolver.setFocusPainted(false);
         btnVolver.setBorderPainted(false);
         btnVolver.setOpaque(true);
         btnVolver.setBackground(new Color(0, 0, 128, 180));
-        //btnVolver.getBounds(amplada);
+        btnVolver.setBounds(0, 0, 200, 50); // Posición inicial (se ajustará después)
+        add(btnVolver);
+
+// Listener para ajustar la posición del botón
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                btnVolver.setBounds(getWidth() / 2 - 100, getHeight() - 100, 200, 50);
+            }
+        });
 
 // Acción del botón
         btnVolver.addActionListener(e -> {

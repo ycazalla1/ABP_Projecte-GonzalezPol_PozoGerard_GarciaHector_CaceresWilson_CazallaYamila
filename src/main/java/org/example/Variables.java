@@ -1,13 +1,5 @@
 package org.example;
 
-import org.example.menu.MenuPrincipal;
-
-import javax.swing.*;
-import java.io.IOException;
-
-import static org.example.menu.MenuConfiguracionJugadores.jugadors;
-import static org.example.menu.MenuConfiguracionJugadores.nivell;
-
 /**
  * Classe Variables
  *
@@ -129,56 +121,13 @@ public class Variables {
          * El text del volum
          */
         public static String moVolum = "moVolum";
-        public static String moContinuar = "moContinuar";
 
+        public static String mpaContinuar = "mpaContinuar";
+        public static String mpaReiniciar = "mpaReiniciar";
         public static String mpaTornarMenu = "mpaTornarMenu";
 
+
         public static String mgTornarMenu = "mgTornarMenu";
-    }
-
-    public static class Accions {
-
-        public static Runnable continuarPartida = new Runnable() {
-
-            private JComponent panellJoc = null;
-
-            public void continuarPartida(JComponent panellJoc) {
-                this.panellJoc = panellJoc;
-            }
-
-            @Override
-            public void run() {
-                PanellJoc.pausa = false; // Quitar la pausa
-                Temporitzador.iniciarTemporitzador();
-                // Reanudar el temporizador
-                JFrame frameActual = (JFrame) SwingUtilities.getWindowAncestor(panellJoc);
-                if (frameActual != null) {
-                    frameActual.dispose(); // Cerrar el menú de pausa
-                }
-            }
-        };
-        public static Runnable reiniciarPartida = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Joc joc = new Joc(jugadors, nivell); // Crear una nueva instancia del juego
-                    joc.pJoc.setVisible(true);          // Mostrar la ventana del juego
-                } catch (InterruptedException | IOException ex) {
-                    ex.printStackTrace();               // Manejar posibles excepciones
-                }
-            }
-        };
-        public static Runnable sortirMenu = new Runnable() {
-            @Override
-            public void run() {
-                MenuPrincipal menu = new MenuPrincipal(); // Crear una nueva instancia del menú principal
-                menu.setVisible(true);                    // Mostrar el menú principal
-                JFrame frameActual = (JFrame) SwingUtilities.getWindowAncestor(null);
-                if (frameActual != null) {
-                    frameActual.dispose();               // Cerrar la ventana actual
-                }
-            }
-        };
     }
 
 }

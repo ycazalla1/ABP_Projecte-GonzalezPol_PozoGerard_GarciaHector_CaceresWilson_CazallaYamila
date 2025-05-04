@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.example.Variables.*;
-import static org.example.Variables.Accions.*;
 import static org.example.menu.MenuPausa.mostrarMenuPausa;
 
 /**

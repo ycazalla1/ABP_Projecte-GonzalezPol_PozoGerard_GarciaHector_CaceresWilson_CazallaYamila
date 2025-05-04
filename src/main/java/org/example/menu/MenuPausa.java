@@ -3,6 +3,7 @@ package org.example.menu;
 import org.example.PanellJoc;
 import org.example.Temporitzador;
 import org.example.Variables;
+import org.example.connector.Acces;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
+import static org.example.Variables.Paraules.*;
 import static org.example.menu.MenuConfiguracionJugadores.jugadors;
 import static org.example.menu.MenuConfiguracionJugadores.nivell;
 
@@ -33,7 +35,7 @@ public class MenuPausa extends JPanel {
         add(Box.createVerticalStrut(100));
 
         // Botón Reanudar
-        JButton btnReanudar = crearBoton("REANUDAR", fuente, () -> {
+        JButton btnReanudar = crearBoton(Acces.carregarIdioma(mpaContinuar), fuente, () -> {
             PanellJoc.pausa = false;
             Temporitzador.reiniciarTemporitzador();
             framePrincipal.getContentPane().remove(this);
@@ -59,7 +61,7 @@ public class MenuPausa extends JPanel {
         add(Box.createVerticalStrut(30));
 
         // Botón Reiniciar
-        JButton btnReiniciar = crearBoton("REINICIAR", fuente, () -> {
+        JButton btnReiniciar = crearBoton(Acces.carregarIdioma(mpaReiniciar), fuente, () -> {
             try {
                 PanellJoc nouPanell = new PanellJoc(Variables.ampladaFinestra, Variables.alturaFinestra, jugadors, nivell);
 
@@ -101,7 +103,7 @@ public class MenuPausa extends JPanel {
         add(Box.createVerticalStrut(30));
 
         // Botón Salir al Menú
-        JButton btnSortir = crearBoton("SALIR AL MENÚ", fuente, () -> {
+        JButton btnSortir = crearBoton(Acces.carregarIdioma(mpaTornarMenu), fuente, () -> {
             // Eliminar el panell antic
             framePrincipal.getContentPane().removeAll();
 

@@ -22,9 +22,6 @@ public class Main {
             JFrame f = new JFrame("Retro Tenis");
             MenuPrincipal menu = new MenuPrincipal();
 
-            //Yamila!! Ejecuto el codigo haz una captura al juego para poner
-            // lo en la documentacion de programacion de las clases
-            // Vale
             try {
                 Sound.carregarSo("src/resources/sounds/Tenis_En_La_Playa.wav");
                 Sound.reproduirSo();
